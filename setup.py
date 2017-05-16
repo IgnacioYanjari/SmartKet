@@ -16,7 +16,6 @@ CREATE TABLE Ventas(num_venta serial PRIMARY KEY , Negocio_id integer, Fecha dat
 CREATE TABLE Ventas_detalle(num_venta integer , Producto_id integer , Monto integer , Cantidad integer);
 
 """
-#queda con 255 el varchar
 cur.execute(sql)
 conn.commit()
 cur.close()
