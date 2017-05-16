@@ -14,7 +14,7 @@ CREATE TABLE Proveedores(id serial PRIMARY KEY , Stock_id integer , Telefono int
 CREATE TABLE Productos(id serial PRIMARY KEY , Nombre varchar , Detalle varchar);
 CREATE TABLE Ventas(id serial PRIMARY KEY , Negocio_id integer, Monto integer , Num_venta integer , Fecha varchar , Producto_id integer);
 """
-#queda con 255 el varchar
+
 cur.execute(sql)
 conn.commit()
 cur.close()
