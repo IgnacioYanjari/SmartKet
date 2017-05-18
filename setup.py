@@ -1,9 +1,9 @@
-from configuraciones import *
+from config import *
 import psycopg2
-conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,passwd))
+conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
 
 cur = conn.cursor()
-sql ="""select 'drop table "' || tablename || '" cascade;' from pg_tables;""" #
+sql ="""select 'drop table "' || tablename || '" cascade;' from pg_tables;"""
 cur.execute(sql)
 
 sql = """
@@ -15,7 +15,6 @@ CREATE TABLE Productos(id serial PRIMARY KEY , Nombre varchar , Detalle varchar)
 CREATE TABLE Ventas(Num_venta serial PRIMARY KEY , Negocio_id integer, Fecha datetime, Total integer);
 CREATE TABLE Ventas_detalle(Num_venta serial PRIMARY KEY , Producto_id integer , Monto integer , Cantidad integer);
 """
-#queda con 255 el varchar
 cur.execute(sql)
 conn.commit()
 cur.close()
