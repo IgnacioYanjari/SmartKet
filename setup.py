@@ -7,12 +7,12 @@ sql ="""select 'drop table "' || tablename || '" cascade;' from pg_tables;""" #
 cur.execute(sql)
 
 sql = """
-CREATE TABLE Negocios( id serial PRIMARY KEY , Dueno_id integer , Ubicacion varchar , Comuna varchar , Gastos integer);
-CREATE TABLE Stocks(id serial PRIMARY KEY , Negocio_id integer , Producto_id integer , Stock_producto integer , Proveedor_id integer , Precio integer );
-CREATE TABLE Dueños(id serial PRIMARY KEY , Nombre varchar , Telefono integer , Email varchar );
-CREATE TABLE Proveedores(id serial PRIMARY KEY , Stock_id integer , Telefono integer , Comuna varchar,Ubicacion varchar ,Precio integer);
+CREATE TABLE Negocios( id serial PRIMARY KEY , Dueno_id integer , Calle varchar , Comuna varchar, Ciudad varchar, Ragion varchar, Telefono integer);
+CREATE TABLE Stocks(Negocio_id serial PRIMARY KEY ,  Producto_id integer , Stock_producto integer , Proveedor_id integer , Precio integer );
+CREATE TABLE Duenos(id serial PRIMARY KEY , Nombre varchar , Telefono integer , Email varchar );
+CREATE TABLE Proveedores(id serial PRIMARY KEY , Telefono integer , Comuna varchar,Ciudad varchar ,Region varchar ,Calle varchar ,Precio integer,Nombre varchar ,Prod_nombre varchar ,Prod_detalle varchar );
 CREATE TABLE Productos(id serial PRIMARY KEY , Nombre varchar , Detalle varchar);
-CREATE TABLE Ventas(num_venta serial PRIMARY KEY , Negocio_id integer, Fecha datetime);
+CREATE TABLE Ventas(Negocio_id serial PRIMARY KEY , Num_venta integer, Fecha datetime, Total integer);
 CREATE TABLE Ventas_detalle(num_venta integer , Producto_id integer , Monto integer , Cantidad integer);
 """
 #queda con 255 el varchar
