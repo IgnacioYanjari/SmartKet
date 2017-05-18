@@ -1,5 +1,5 @@
 host = "localhost"
 port = 4243
-user = "BDD"
+user = "postgres"
 password = "yanjari"
-database = "Tienda"
+database = "tienda"
