@@ -7,7 +7,7 @@ sql ="""select 'drop table "' || tablename || '" cascade;' from pg_tables;""" #
 cur.execute(sql)
 
 sql = """
-CREATE TABLE Negocios( id serial PRIMARY KEY , Dueno_id integer , Calle varchar , Comuna varchar, Ciudad varchar, Ragion varchar, Telefono integer);
+CREATE TABLE Negocios( id serial PRIMARY KEY , Dueno_id integer , Calle varchar , Comuna varchar, Ciudad varchar, Region varchar, Telefono integer);
 CREATE TABLE Stocks(Negocio_id serial PRIMARY KEY ,  Producto_id integer , Stock_producto integer , Proveedor_id integer , Precio integer );
 CREATE TABLE Duenos(id serial PRIMARY KEY , Nombre varchar , Telefono integer , Email varchar );
 CREATE TABLE Proveedores(id serial PRIMARY KEY , Telefono integer ,Comuna varchar,Ciudad varchar ,Region varchar ,Calle varchar ,Precio integer,Nombre varchar);
