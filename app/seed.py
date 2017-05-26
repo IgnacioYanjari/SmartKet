@@ -15,7 +15,7 @@ dueno = cur.fetchall()
 print(dueno)
 
 sql="""
-insert into Negocios (dueno_id, calle, comuna, ciudad, region, telefono) values
+insert into negocios (dueno_id, calle, comuna, ciudad, region, telefono) values
 ('0','calle_test','comuna_test','ciudad_test','region_test','1')
 returning
 id, dueno_id, calle, comuna, ciudad, region, telefono;
@@ -38,7 +38,7 @@ stocks = cur.fetchone()
 print(stocks)
 
 sql="""
-insert into proveedor (telefono, comuna, ciudad, region, calle, precio, nombre)
+insert into proveedores (telefono, comuna, ciudad, region, calle, precio, nombre)
 values ('2', 'comuna_test', 'ciudad_test','region_test','calle_test','800','nombre_test')
 returning
 id,telefono, comuna, ciudad, region, calle, precio, nombre;
@@ -82,6 +82,7 @@ cur.execute(sql)
 conn.commit()
 ventas_detalle = cur.fetchone()
 print (ventas_detalle)
+
 
 
 conn.close()
