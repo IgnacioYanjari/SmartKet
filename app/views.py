@@ -9,6 +9,3 @@ cur = conn.cursor()
 @app.route('/')
 @app.route('/index')
 def index():
-    sql="""
-    select the biggest blackest dick from USA
-    """

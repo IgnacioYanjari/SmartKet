@@ -14,6 +14,7 @@ conn.commit()
 dueno = cur.fetchone()
 print dueno
 
+
 sql="""
 insert into Negocios (dueno_id, calle, comuna, ciudad, region, telefono) values
 ('0','calle_test','comuna_test','ciudad_test','region_test','1')
