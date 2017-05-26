@@ -11,9 +11,8 @@ id, nombre, telefono, email;
 
 cur.execute(sql)
 conn.commit()
-dueno = cur.fetchone()
-print dueno
-
+dueno = cur.fetchall()
+print(dueno)
 
 sql="""
 insert into Negocios (dueno_id, calle, comuna, ciudad, region, telefono) values
@@ -25,7 +24,7 @@ id, dueno_id, calle, comuna, ciudad, region, telefono;
 cur.execute(sql)
 conn.commit()
 negocio = cur.fetchone()
-print negocio
+print(negocio)
 
 sql="""
 insert into stocks (negocio_id,producto_id, stock_producto, proveedor_id, precio) values
@@ -36,7 +35,7 @@ returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
 cur.execute(sql)
 conn.commit()
 stocks = cur.fetchone()
-print stocks
+print(stocks)
 
 sql="""
 insert into proveedor (telefono, comuna, ciudad, region, calle, precio, nombre)
@@ -49,7 +48,7 @@ id,telefono, comuna, ciudad, region, calle, precio, nombre;
 cur.execute(sql)
 conn.commit()
 proveedor = cur.fetchone()
-print proveedor
+print (proveedor)
 
 sql= """
 insert into productos (nombre, detalle) values ('nombre_test','detalle_test')
@@ -60,7 +59,7 @@ id,nombre, detalle;
 cur. execute(sql)
 conn.commit()
 productos = cur.fetchone()
-print productos
+print (productos)
 
 sql ="""
 insert into ventas (num_venta, negocio_id, fecha) values ('0','0', '0/0/0')
@@ -71,7 +70,7 @@ num_venta, negocio_id, fecha;
 cur.execute(sql)
 conn.commit()
 ventas = cur.fetchone()
-print ventas
+print (ventas)
 
 sql="""
 insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
@@ -82,7 +81,7 @@ num_venta, producto_id, monto, cantidad;
 cur.execute(sql)
 conn.commit()
 ventas_detalle = cur.fetchone()
-print ventas_detalle
+print (ventas_detalle)
 
 
 conn.close()
