@@ -1,5 +1,5 @@
 host = "localhost"
 port = 4243
-user = "informatica"
-password = "yanjari"
-database = "tienda"
+user = "tics"
+password = "1234"
+database = "tics"

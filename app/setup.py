@@ -3,11 +3,13 @@ import psycopg2
 conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
 
 cur = conn.cursor()
-sql ="""
-select 'drop table "' || tablename || '" cascade;' from pg_tables;
+tablas=["negocios", "stocks", "duenos", "proveedores", "productos", "ventas", "ventas_detalle"]
+for tabla in tablas:
+    sql ="""
+    drop table %s;
 
-""" #
-cur.execute(sql)
+    """%(tabla)
+    cur.execute(sql)
 
 sql = """
 CREATE TABLE negocios( id serial PRIMARY KEY , dueno_id integer , calle varchar , comuna varchar, ciudad varchar, region varchar, telefono integer);

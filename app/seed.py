@@ -1,5 +1,7 @@
 from config import *
+from datetime import datetime
 import psycopg2
+
 conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
 cur = conn.cursor()
 
@@ -11,7 +13,7 @@ id, nombre, telefono, email;
 
 cur.execute(sql)
 conn.commit()
-dueno = cur.fetchall()
+dueno = cur.fetchone()
 print(dueno)
 
 sql="""
@@ -27,7 +29,7 @@ negocio = cur.fetchone()
 print(negocio)
 
 sql="""
-insert into stocks (negocio_id,producto_id, stock_producto, proveedor_id, precio) values
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
 ('0','0', '10','0','1000')
 returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
 """
@@ -61,11 +63,12 @@ conn.commit()
 productos = cur.fetchone()
 print (productos)
 
+fecha=datetime.now()
 sql ="""
-insert into ventas (num_venta, negocio_id, fecha) values ('0','0', '0/0/0')
+insert into ventas (num_venta, negocio_id, fecha) values ('0','0', ('%s'))
 returning
 num_venta, negocio_id, fecha;
-"""
+"""%(fecha)
 
 cur.execute(sql)
 conn.commit()
