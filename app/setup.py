@@ -3,7 +3,10 @@ import psycopg2
 conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
 
 cur = conn.cursor()
-sql ="""select 'drop table "' || tablename || '" cascade;' from pg_tables;""" #
+sql ="""
+select 'drop table "' || tablename || '" cascade;' from pg_tables;
+
+""" #
 cur.execute(sql)
 
 sql = """
