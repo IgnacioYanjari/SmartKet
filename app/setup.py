@@ -7,7 +7,6 @@ tablas=["negocios", "stocks", "duenos", "proveedores", "productos", "ventas", "v
 for tabla in tablas:
     sql ="""
     drop table %s;
-
     """%(tabla)
     cur.execute(sql)
 
