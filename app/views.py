@@ -1,11 +1,13 @@
 from app import app
 from flask import render_template
-from configuraciones import *
-
+from config import *
 import psycopg2
-conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password)) ))
+
+conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
 cur = conn.cursor()
 
 @app.route('/')
 @app.route('/index')
 def index():
+    print "peco"
+    return render_template("index.html")
