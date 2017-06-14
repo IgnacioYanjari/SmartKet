@@ -2,7 +2,7 @@ from config import *
 from datetime import datetime
 import psycopg2
 
-conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
+conn = psycopg2.connect("dbname=%s host=%s user=%s password=%s"%(database,host,user,password))
 cur = conn.cursor()
 
 sql = """
@@ -14,6 +14,7 @@ id, nombre, telefono, email;
 cur.execute(sql)
 conn.commit()
 dueno = cur.fetchone()
+print ("Insertamos en Duenos :" )
 print(dueno)
 
 sql="""
@@ -26,6 +27,7 @@ id, dueno_id, calle, comuna, ciudad, region, telefono;
 cur.execute(sql)
 conn.commit()
 negocio = cur.fetchone()
+print ("Insertamos en  Negocio :" )
 print(negocio)
 
 sql="""
@@ -37,6 +39,7 @@ returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
 cur.execute(sql)
 conn.commit()
 stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
 print(stocks)
 
 sql="""
@@ -50,6 +53,7 @@ id,telefono, comuna, ciudad, region, calle, precio, nombre;
 cur.execute(sql)
 conn.commit()
 proveedor = cur.fetchone()
+print ("Insertamos en  Proveedor : ")
 print (proveedor)
 
 sql= """
@@ -61,6 +65,7 @@ id,nombre, detalle;
 cur. execute(sql)
 conn.commit()
 productos = cur.fetchone()
+print (" Insertamos en Productos : ")
 print (productos)
 
 fecha=datetime.now()
@@ -73,6 +78,7 @@ num_venta, negocio_id, fecha;
 cur.execute(sql)
 conn.commit()
 ventas = cur.fetchone()
+print ("Insertamos en  Ventas : ")
 print (ventas)
 
 sql="""
@@ -84,6 +90,7 @@ num_venta, producto_id, monto, cantidad;
 cur.execute(sql)
 conn.commit()
 ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
 print (ventas_detalle)
 
 

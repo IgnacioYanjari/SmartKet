@@ -1,14 +1,15 @@
 from config import *
 import psycopg2
-conn = psycopg2.connect("dbname=%s user=%s password=%s"%(database,user,password))
+print(database,user,password)
+conn = psycopg2.connect("dbname=%s host=%s user=%s password=%s"%(database,host,user,password))
 
 cur = conn.cursor()
-tablas=["negocios", "stocks", "duenos", "proveedores", "productos", "ventas", "ventas_detalle"]
-for tabla in tablas:
-    sql ="""
-    drop table %s;
-    """%(tabla)
-    cur.execute(sql)
+
+sql = """ DROP SCHEMA public CASCADE;
+CREATE SCHEMA public;
+"""
+
+cur.execute(sql)
 
 sql = """
 CREATE TABLE negocios( id serial PRIMARY KEY , dueno_id integer , calle varchar , comuna varchar, ciudad varchar, region varchar, telefono integer);
