@@ -9,5 +9,4 @@ cur = conn.cursor()
 @app.route('/')
 @app.route('/index')
 def index():
-    print "peco"
     return render_template("index.html")
