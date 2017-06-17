@@ -31,19 +31,21 @@ def index():
     print sql
     cur.execute(sql)
     ventas = cur.fetchall()
-    tupla = []
+
+    tupla =[]
     for subventa in ventas:
-        tupla2 = []
-        for subsubventa in subventa:
-            tupla2.append(subsubventa)
+        tupla2 = list(subventa)
         tupla.append(tupla2)
+
+    print (tupla)
+
     for subventa in tupla:
-        #print (subventa[2].hour)
+
         fechas = str(subventa[2].day)+"/"+str(subventa[2].month)+"/"+str(subventa[2].year)
         horas = str(subventa[2].hour)+":"+str(subventa[2].minute)+":"+str(subventa[2].second)
-        print(fechas,horas)
         subventa.append(fechas)
         subventa.append(horas)
 
-    print tupla
-    return render_template("index.html",duenos=duenos , datos = datos , ventas = tupla)
+    ventas = tuple(tupla)
+    print ventas
+    return render_template("index.html",duenos=duenos , datos = datos , ventas = ventas)
