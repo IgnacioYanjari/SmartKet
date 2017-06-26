@@ -11,7 +11,7 @@ cur = conn.cursor()
 # cur.execute(sql)
 
 sql = """
-CREATE TABLE negocios( id serial PRIMARY KEY , dueno_id integer , calle varchar , comuna varchar, ciudad varchar, region varchar, telefono integer);
+CREATE TABLE negocios( id serial PRIMARY KEY , dueno_id integer , calle varchar, nombre varchar , comuna varchar, ciudad varchar, region varchar, telefono integer);
 CREATE TABLE stocks(Negocio_id serial PRIMARY KEY ,  producto_id integer , stock_producto integer , proveedor_id integer , precio integer );
 CREATE TABLE duenos(id serial PRIMARY KEY , nombre varchar , telefono integer , email varchar );
 CREATE TABLE proveedores(id serial PRIMARY KEY , telefono integer ,comuna varchar,ciudad varchar ,region varchar ,calle varchar ,precio integer,nombre varchar);

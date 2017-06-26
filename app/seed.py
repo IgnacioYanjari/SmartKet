@@ -18,8 +18,8 @@ print ("Insertamos en Duenos :" )
 print(dueno)
 
 sql="""
-insert into negocios (dueno_id, calle, comuna, ciudad, region, telefono) values
-('0','calle_test','comuna_test','ciudad_test','region_test','1')
+insert into negocios (dueno_id, calle, nombre, comuna, ciudad, region, telefono) values
+('0','calle_test','nombre_test','comuna_test','ciudad_test','region_test','1')
 returning
 id, dueno_id, calle, comuna, ciudad, region, telefono;
 """
@@ -57,7 +57,97 @@ print ("Insertamos en  Proveedor : ")
 print (proveedor)
 
 sql= """
-insert into productos (nombre, detalle) values ('nombre_test','detalle_test')
+insert into productos (id,nombre, detalle) values ('0','nombre_test','detalle_test')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7806500403722' ,'Toalla Nova','Elite Deco')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7801610323236' ,'Coca-Cola','Bebida Gaseosa 3LT')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ( '7804646000058','MR Big','Bebida energetica.')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ( '7802420127113','Mani salado con miel','Marco Polo')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7802000002564' ,'Papas Fritas','Lay`s')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7802110002263' ,'Pisco Capel','40 destilados')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7806540000950' ,'Servilletas','Favorita pack 40')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7801930010854' ,'Pizza PF','Jamon Queso')
+returning
+id,nombre, detalle;
+"""
+
+cur. execute(sql)
+conn.commit()
+productos = cur.fetchone()
+
+sql= """
+insert into productos (id,nombre, detalle) values ('7801620005283' ,'Jugo Frugo','3LT sabor pina')
 returning
 id,nombre, detalle;
 """
