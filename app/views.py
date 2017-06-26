@@ -19,7 +19,7 @@ def index():
     sql = """
 
         select negocios.telefono , negocios.calle
-        from negocios  where  negocios.id='0';
+        from negocios  where  negocios.id='1';
     """
     # print sql
     cur.execute(sql)
@@ -52,3 +52,7 @@ def index():
     ventas = tuple(tupla)
     print ventas
     return render_template("index.html",duenos=duenos , datos = datos , ventas = ventas)
+
+@app.route('/ventas_estadisticas.html')
+def ventas():
+    return render_template("ventas_estadisticas.html")

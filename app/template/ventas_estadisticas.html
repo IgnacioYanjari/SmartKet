@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> {{duenos[0]}} - Tienda </title>
+    <title> Estadisticas de ventas totales </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -39,33 +39,15 @@
             <div class="container-fluid">
                 <!-- Page Heading -->
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-12" >
+                      <div class="text-center">
                         <h1 class="page-header">
-                            {{duenos[0]}}-Tienda <small> Telefono : {{datos[0]}} Calle : {{datos[1]}} </small>
+                           Ventas y Estadísticas
                         </h1>
+                      </div>
                     </div>
                 </div>
 
-                <div class="row">
-
-                    <div class="col-lg-3 col-md-6">
-                        <div class="panel panel-yellow">
-                            <div class="panel-heading">
-                                <a href="#" style="color: #FAFAFA; text-decoration: none;">
-                                <div class="row">
-                                    <div class="col-xs-3">
-                                        <i class="fa fa-shopping-cart fa-5x"></i>
-                                    </div>
-                                    <div class="col-xs-9 text-right">
-                                        <div class="huge">124</div>
-                                        <div>New Orders!</div>
-                                    </div>
-                                </div>
-                                </a>
-                            </div>
-
-                        </div>
-                    </div>
 
 
 
@@ -75,7 +57,7 @@
                     <div class="col-lg-4">
                         <div class="panel panel-default">
                             <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Ultimas Ventas</h3>
+                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Totalidad de Ventas</h3>
                             </div>
                             <div class="panel-body">
                                 <!-- ACA DEBE ESTAR LA CONSULTA CON LAS ULTIMAS VENTAS REALIZADAS -->
@@ -89,16 +71,6 @@
                                                 <th>Monto (CLP)</th>
                                             </tr>
                                         </thead>
-                                        <tbody>
-                                          {% for ventas in ventas %}
-                                            <tr>
-                                                <td>{{ventas[0]}}</td>
-                                                <td>{{ventas[3]}}</td>
-                                                <td>{{ventas[4]}}</td>
-                                                <td>${{ventas[1]}}</td>
-                                            </tr>
-                                          {% endfor %}
-                                        </tbody>
                                     </table>
                                 </div>
                                 <div class="text-right">
@@ -106,22 +78,6 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
-                    <div class="col-lg-6">
-                        <div class="panel panel-primary">
-                            <div class="panel-heading" style="text-align: center">Detalle</div>
-                            <div class="panel-body">
-                                sajkndasasdndsasadsaddlsa
-                            </div>
-                        </div>
-                        <form role="form" action="/receptor" method="post">
-                        <div class="form-group">
-                            <div class="col-xs-4">
-                                <input type="text" class="form-control" id="prod_id">
-                            </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Añadir</button>
-                    </form>
                     </div>
                 </div>
             </div>
