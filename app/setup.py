@@ -17,8 +17,9 @@ CREATE TABLE duenos(id serial PRIMARY KEY , nombre varchar , telefono integer , 
 CREATE TABLE proveedores(id serial PRIMARY KEY , telefono integer ,comuna varchar,ciudad varchar ,region varchar ,calle varchar ,precio integer,nombre varchar);
 CREATE TABLE productos(id bigserial PRIMARY KEY , nombre varchar , detalle varchar);
 CREATE TABLE ventas(num_venta serial PRIMARY KEY , negocio_id integer, fecha timestamp);
-CREATE TABLE ventas_detalle(num_venta integer  , producto_id bigint , monto integer , cantidad integer);
+CREATE TABLE ventas_detalle(num_venta integer, producto_id bigint , monto integer , cantidad integer);
 """
+
 #queda con 255 el varchar
 cur.execute(sql)
 conn.commit()

@@ -32,7 +32,7 @@ print(negocio)
 
 sql="""
 insert into negocios (dueno_id, calle, nombre, comuna, ciudad, region, telefono) values
-('1','calle_test','nombre_test','comuna_test','ciudad_test','region_test','1')
+('0','calle_test','nombre_test','comuna_test','ciudad_test','region_test','1')
 returning
 id, dueno_id, calle, comuna, ciudad, region, telefono;
 """

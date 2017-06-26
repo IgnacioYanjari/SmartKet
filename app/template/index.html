@@ -78,7 +78,6 @@
                                 <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Ultimas Ventas</h3>
                             </div>
                             <div class="panel-body">
-                                <!-- ACA DEBE ESTAR LA CONSULTA CON LAS ULTIMAS VENTAS REALIZADAS -->
                                 <div class="table-responsive">
                                     <table class="table table-bordered table-hover table-striped">
                                         <thead>
@@ -111,17 +110,42 @@
                         <div class="panel panel-primary">
                             <div class="panel-heading" style="text-align: center">Detalle</div>
                             <div class="panel-body">
-                                sajkndasasdndsasadsaddlsa
+                                <div class="table-responsive">
+                                    <table class="table table-bordered table-hover table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th style="text-align: center">Venta</th>
+                                                <th>Eliminar</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            {% for item in venta_actual %}
+                                              <tr>
+                                                  <td>{{item[0]}}x{{item[1]}}: {{item[2]}}</td>
+                                                  <td class="col-md-1"></td>
+                                              </tr>
+                                            {% endfor %}
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th style="font-size: 20px">TOTAL: </th>
+                                            <tr>
+                                        </tfoot>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                        <form role="form" action="/receptor" method="post">
-                        <div class="form-group">
-                            <div class="col-xs-4">
-                                <input type="text" class="form-control" id="prod_id">
+                        <form role="form" action="/index" method="post">
+                            <div class="form-group">
+                                <div class="col-xs-3">
+                                    <input type="text" class="form-control" id="pid">
+                                </div>
+                                <div class="col-xs-2">
+                                    <input type="text" class="form-control" id="cant">
+                                </div>
                             </div>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Añadir</button>
-                    </form>
+                            <button type="submit" class="btn btn-primary">Añadir</button>
+                        </form>
                     </div>
                 </div>
             </div>
