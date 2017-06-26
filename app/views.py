@@ -1,5 +1,5 @@
 from app import app
-from flask import render_template,request
+from flask import render_template,request,redirect
 from config import *
 import psycopg2
 
@@ -15,18 +15,33 @@ def index():
         cant = request.form['cant']
 
         sql = """
-            select productos.nombre, stocks.precio from productos, stocks where
-            productos.id=stocks.producto_id and stocks.negocio_id=1 and productos.id=('%s');
+            SELECT (EXISTS (SELECT 1 FROM ventas_detalle WHERE num_venta=0 and producto_id = ('%s')))::bool;
         """%(prod_id)
         cur.execute(sql)
-        p_info=cur.fetchone()
-        print p_info
+        exist=cur.fetchone()
+        print "here:",exist
+        if exist[0]:
+             sql = """
+                 update ventas_detalle set cantidad = (select cantidad from ventas_detalle where
+                 producto_id=('%s') and num_venta=0)+('%s')
+                 where num_venta=0;
+             """%(prod_id, cant)
+             cur.execute(sql)
+             conn.commit()
+        else:
+            sql = """
+                select productos.nombre, stocks.precio from productos, stocks where
+                productos.id=stocks.producto_id and stocks.negocio_id=1 and productos.id=('%s');
+            """%(prod_id)
+            cur.execute(sql)
+            p_info=cur.fetchone()
+            print p_info
 
-    	sql = """
-            insert into ventas_detalle (num_venta, producto_id, monto, cantidad) values(0,%s,%s,%s);
-        """%(prod_id,p_info[1],cant)
-        cur.execute(sql)
-        conn.commit()
+    	    sql = """
+                insert into ventas_detalle (num_venta, producto_id, monto, cantidad) values(0,%s,%s,%s);
+            """%(prod_id,p_info[1],cant)
+            cur.execute(sql)
+            conn.commit()
 
     sql = """
         select nombre from duenos where id = '1';
@@ -44,11 +59,18 @@ def index():
     datos = cur.fetchone()
 
     sql = """
-        select nombre, cantidad, monto*cantidad as total from ventas_detalle, productos
+        select nombre, cantidad, monto*cantidad as total, producto_id from ventas_detalle, productos
         where ventas_detalle.producto_id=productos.id and num_venta='0';
     """
     cur.execute(sql)
     venta_actual = cur.fetchall()
+
+    sql = """
+        select sum(monto*cantidad) as total from ventas_detalle, productos
+        where ventas_detalle.producto_id=productos.id and num_venta='0';
+    """
+    cur.execute(sql)
+    total_venta = cur.fetchone()
 
     sql = """
         select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum(monto*cantidad) as suma
@@ -99,7 +121,17 @@ def index():
 
     ventas = tuple(tupla)
     #print ventas
-    return render_template("index.html",duenos=duenos , datos = datos , ventas = ventas, venta_actual = venta_actual)
+    return render_template("index.html",duenos=duenos , datos = datos ,
+    ventas = ventas, venta_actual = venta_actual, total_venta = total_venta)
+
+@app.route('/delete/<id>')
+def delete(id):
+    sql="""
+        delete from ventas_detalle where num_venta=0 and producto_id=('%s');
+    """%(id)
+    cur.execute(sql)
+    conn.commit()
+    return  redirect(request.referrer)
 
 @app.route('/ventas_estadisticas.html')
 def ventas():
