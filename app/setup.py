@@ -19,6 +19,7 @@ CREATE TABLE productos(id serial PRIMARY KEY , nombre varchar , detalle varchar)
 CREATE TABLE ventas(num_venta serial PRIMARY KEY , negocio_id integer, fecha timestamp);
 CREATE TABLE ventas_detalle(num_venta serial PRIMARY KEY , producto_id integer , monto integer , cantidad integer);
 """
+ 
 #queda con 255 el varchar
 cur.execute(sql)
 conn.commit()
