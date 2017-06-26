@@ -199,7 +199,7 @@ print (ventas)
 
 sql="""
 insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
-values ('1','0', '1000', '3')
+values ('1','7801620005283', '1000', '3')
 returning
 num_venta, producto_id, monto, cantidad;
 """
@@ -211,7 +211,7 @@ print (ventas_detalle)
 
 sql="""
 insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
-values ('2','1', '500', '3')
+values ('1','7801610323236', '1890', '1')
 returning
 num_venta, producto_id, monto, cantidad;
 """
@@ -223,7 +223,81 @@ print (ventas_detalle)
 
 sql="""
 insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
-values ('3','2', '750', '3')
+values ('1','7802110002263', '7990', '2')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
+
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('1','7802000002564', '1870', '1')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
+
+
+
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('2','7802420127113', '10000', '1')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
+
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('2','7804646000058', '3400', '1')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
+
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('2','7806500403722', '2000', '2')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
+
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('3','7802000002564', '1890', '2')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
+
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('3','7804646000058', '3400', '1')
 returning
 num_venta, producto_id, monto, cantidad;
 """
