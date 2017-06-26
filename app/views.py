@@ -130,5 +130,5 @@ def ventas():
     sql = """ select ventas_detalle.num_venta,productos.nombre,ventas_detalle.cantidad,ventas_detalle.monto
               from productos,ventas_detalle where productos.id = ventas_detalle.producto_id"""
     cur.execute(sql)
-    ventas_detalle = fetchall
+    ventas_detalle = cur.fetchall()
     return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle)
