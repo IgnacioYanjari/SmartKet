@@ -62,8 +62,6 @@ def index():
     ventas = cur.fetchall()
     print ventas
 
-
-
     tupla =[]
     for subventa in ventas:
         tupla2 = list(subventa)
