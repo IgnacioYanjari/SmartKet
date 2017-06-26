@@ -55,4 +55,5 @@ def index():
 
 @app.route('/ventas_estadisticas.html')
 def ventas():
+    sql = """ select  """
     return render_template("ventas_estadisticas.html")
