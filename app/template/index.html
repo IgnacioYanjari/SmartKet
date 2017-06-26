@@ -121,14 +121,19 @@
                                         <tbody>
                                             {% for item in venta_actual %}
                                               <tr>
-                                                  <td>{{item[0]}}x{{item[1]}}: {{item[2]}}</td>
-                                                  <td class="col-md-1"></td>
+                                                  <td>{{item[0]}}<span style="display:inline-block; width:70%;"></span>
+                                                      x{{item[1]}}:
+                                                      <span style="font-weight: bold"> {{item[2]}}</span>
+                                                  </td>
+                                                  <td class="col-md-1" style="text-align: center">
+                                                      <a href="/delete/{{item[3]}}" class="glyphicon glyphicon-remove" style="text-decoration: none;" role="button"></a>
+                                                  </td>
                                               </tr>
                                             {% endfor %}
                                         </tbody>
                                         <tfoot>
                                             <tr>
-                                                <th style="font-size: 20px">TOTAL: </th>
+                                                <th style="font-size: 20px; text-align: right;">TOTAL: {{total_venta[0]}} </th>
                                             <tr>
                                         </tfoot>
                                     </table>
@@ -138,10 +143,10 @@
                         <form role="form" action="/index" method="post">
                             <div class="form-group">
                                 <div class="col-xs-3">
-                                    <input type="text" class="form-control" id="pid">
+                                    <input type="text" autofocus="autofocus" class="form-control" name="pid">
                                 </div>
                                 <div class="col-xs-2">
-                                    <input type="text" class="form-control" id="cant">
+                                    <input type="text" class="form-control" name="cant" value="1">
                                 </div>
                             </div>
                             <button type="submit" class="btn btn-primary">Añadir</button>
