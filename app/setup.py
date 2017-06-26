@@ -4,9 +4,9 @@ conn = psycopg2.connect("dbname=%s host=%s user=%s password=%s"%(database,host,u
 
 cur = conn.cursor()
 
- sql = """ DROP SCHEMA public CASCADE;
- CREATE SCHEMA public;
- """
+# sql = """ DROP SCHEMA public CASCADE;
+# CREATE SCHEMA public;
+# """
 
 # cur.execute(sql)
 

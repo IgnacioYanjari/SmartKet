@@ -70,7 +70,33 @@ print (productos)
 
 fecha=datetime.now()
 sql ="""
-insert into ventas (num_venta, negocio_id, fecha) values ('0','0', ('%s'))
+insert into ventas (negocio_id, fecha) values ('0', ('%s'))
+returning
+num_venta, negocio_id, fecha;
+"""%(fecha)
+
+cur.execute(sql)
+conn.commit()
+ventas = cur.fetchone()
+print ("Insertamos en  Ventas : ")
+print (ventas)
+
+fecha=datetime.now()
+sql ="""
+insert into ventas (negocio_id, fecha) values ('0', ('%s'))
+returning
+num_venta, negocio_id, fecha;
+"""%(fecha)
+
+cur.execute(sql)
+conn.commit()
+ventas = cur.fetchone()
+print ("Insertamos en  Ventas : ")
+print (ventas)
+
+fecha=datetime.now()
+sql ="""
+insert into ventas (negocio_id, fecha) values ('0', ('%s'))
 returning
 num_venta, negocio_id, fecha;
 """%(fecha)
@@ -83,7 +109,7 @@ print (ventas)
 
 sql="""
 insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
-values ('0','0', '1000', '3')
+values ('1','0', '1000', '3')
 returning
 num_venta, producto_id, monto, cantidad;
 """
@@ -93,6 +119,28 @@ ventas_detalle = cur.fetchone()
 print ("Insertamos en  Ventas_Detalle : ")
 print (ventas_detalle)
 
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('2','1', '500', '3')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
 
+sql="""
+insert into ventas_detalle (num_venta, producto_id, monto, cantidad)
+values ('3','2', '750', '3')
+returning
+num_venta, producto_id, monto, cantidad;
+"""
+cur.execute(sql)
+conn.commit()
+ventas_detalle = cur.fetchone()
+print ("Insertamos en  Ventas_Detalle : ")
+print (ventas_detalle)
 
 conn.close()
