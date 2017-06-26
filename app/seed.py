@@ -31,6 +31,19 @@ print ("Insertamos en  Negocio :" )
 print(negocio)
 
 sql="""
+insert into negocios (dueno_id, calle, nombre, comuna, ciudad, region, telefono) values
+('1','calle_test','nombre_test','comuna_test','ciudad_test','region_test','1')
+returning
+id, dueno_id, calle, comuna, ciudad, region, telefono;
+"""
+
+cur.execute(sql)
+conn.commit()
+negocio = cur.fetchone()
+print ("Insertamos en  Negocio :" )
+print(negocio)
+
+sql="""
 insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
 ('0','0', '10','0','1000')
 returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
@@ -41,6 +54,115 @@ conn.commit()
 stocks = cur.fetchone()
 print ("Insertamos en  Stocks :" )
 print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7806500403722', '100','0','2000')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7801610323236', '200','0','1890')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7804646000058', '200','0','1790')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7802420127113', '200','0','10000')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7802000002564', '200','0','1990')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7802110002263', '200','0','1790')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7806540000950', '200','0','2000')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7801930010854', '200','0','2290')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
+sql="""
+insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
+('1','7801620005283', '200','0','1000')
+returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
+"""
+
+cur.execute(sql)
+conn.commit()
+stocks = cur.fetchone()
+print ("Insertamos en  Stocks :" )
+print(stocks)
+
 
 sql="""
 insert into proveedores (telefono, comuna, ciudad, region, calle, precio, nombre)
