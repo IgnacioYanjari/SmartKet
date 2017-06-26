@@ -9,7 +9,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title> Estadisticas de ventas totales </title>
+    <title> Estadisticas </title>
 
     <!-- Bootstrap Core CSS -->
     <link href="../static/css/bootstrap.min.css" rel="stylesheet">
@@ -41,7 +41,7 @@
                 <div class="row">
                     <div class="col-lg-12" >
                       <div class="text-center">
-                        <h1 class="page-header">
+                        <h1 style="margin-top : 10px "  class="page-header">
                            Ventas y Estadísticas
                         </h1>
                       </div>
@@ -53,11 +53,14 @@
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Ventas</h3>
-                            </div>
+                              <div class="panel-heading">
+                                <div class="text-center">
+                                  <h3 class="panel-title"><i class="fa fa-money fa-fw"></i> Ventas</h3>
+                                </div>
+                              </div>
+
                             <div class="panel-body">
-                                <!-- ACA DEBE ESTAR LA CONSULTA CON LAS ULTIMAS VENTAS REALIZADAS -->
+
                                 {% for subventa in ventas %}
                                   <div class="panel panel-primary ">
                                     <div class="panel-heading">
@@ -66,34 +69,39 @@
                                       </div>
                                     </div>
                                     <div class="text-center">
-
-                                      <p style = "margin-top : 15px;"> - Fecha : {{subventa[2]}}   -Hora : {{subventa[3]}}    - Cantidad Total : {{subventa[1]}}  </p>
-
+                                      <p style = "margin-top : 15px; ">  Fecha : {{subventa[2]}}    Hora : {{subventa[3]}}     Cantidad Total : {{subventa[1]}}  </p>
                                     </div>
-                                    {% for subdetalle in ventas_detalle%}
-                                    {% if subdetalle[0] == subventa[0] %}
+
                                     <div class="panel-body">
-                                      <div class="table-responsive">
-                                        <table class="table table-bordered table-hover table-striped">
-                                            <thead>
-                                                <tr>
-                                                    <th> Producto </th>
-                                                    <th> Cantidad </th>
-                                                    <th> Monto Unitario </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td> {{subdetalle[1]}} </td>
-                                                    <td>  {{subdetalle[2]}} </td>
-                                                    <td> {{subdetalle[3]}} </td>
-                                                </tr>
-                                            </tbody>
-                                        </table>
+
+                                      <div class = "col-lg-11">
+                                        <div class ="text-center">
+                                          <div class="table-responsive">
+                                            <table class="table table-bordered table-hover table-striped">
+                                                <thead>
+                                                    <tr>
+                                                        <th> Producto </th>
+                                                        <th> Cantidad </th>
+                                                        <th> Monto Unitario </th>
+                                                    </tr>
+                                                </thead>
+                                                {% for subdetalle in ventas_detalle%}
+                                                {% if subdetalle[0] == subventa[0]%}
+                                                <tbody>
+                                                    <tr>
+
+                                                        <td> {{subdetalle[1]}} </td>
+                                                        <td>  {{subdetalle[2]}} </td>
+                                                        <td> {{subdetalle[3]}} </td>
+                                                    </tr>
+                                                </tbody>
+                                                {% endif %}
+                                                {% endfor %}
+                                            </table>
+                                          </div>
+                                        </div>
                                       </div>
                                     </div>
-                                    {% endif %}
-                                    {% endfor %}
 
                                     </div>
                                     {% endfor %}
