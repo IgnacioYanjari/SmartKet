@@ -143,9 +143,25 @@ def ventas():
         date_ini = request.form['date-ini']
         date_fin = request.form['date-fin']
         date_now = datetime.now()
-        print date_ini
-        print date_fin
-        print date_now.date()
+        year_ini = date_ini[0:4]
+        month_ini = date_ini[5:7]
+        day_ini = date_ini[8:10]
+        year_fin = date_fin[0:4]
+        month_fin = date_fin[5:7]
+        day_fin = date_fin[8:10]
+        year_now = date_now.date().year
+        month_now = date_now.date().month
+        day_now = date_now.date().day
+        print "year_ini :",year_ini
+        print "month_ini :",month_ini
+        print "day_ini :",day_ini
+        print "year_fin :",year_fin
+        print "month_fin :",month_fin
+        print "day_fin :",day_fin
+        print "year_now :",year_now
+        print "month_now :",month_now
+        print "day_now :",day_now
+
     sql = """ select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum( monto * cantidad) as suma
             from ventas_detalle group by num_venta) as t1 ,
             (select num_venta , fecha from ventas group by num_venta) as t2
