@@ -41,33 +41,14 @@
                 <div class="row">
                     <div class="col-lg-12" >
                       <div class="text-center">
-                        <h1 style="margin-top : 10px "  class="page-header">
+                        <h1 style="margin-top : 3% "  class="page-header">
                            Ventas y Estadísticas
                         </h1>
                       </div>
                     </div>
                 </div>
-
-                <div class = "pull-right">
-                  <div class="row">
-                    <div class="col-log-11">
-                      <div class="panel panel-default">
-                        <div class="panel-heading">
-                          <div class="text-center">
-                            <h3 class="panel-title"> Ingresar fecha a calcular</h3>
-                          </div>
-                        </div>
-                        <div class="panel-primary">
-                        <form role = "form" action="/date" method="post">
-                            <input name="date"  type="date" />
-                            <input type="submit" />
-                        </form>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-
               </div>
+
 
                 <div class="row">
                     <div class="col-lg-6">
@@ -88,7 +69,9 @@
                                       </div>
                                     </div>
                                     <div class="text-center">
-                                      <p style = "margin-top : 15px; ">  Fecha : {{subventa[2]}}    Hora : {{subventa[3]}}     Cantidad Total : {{subventa[1]}}  </p>
+                                      <p style = "margin-top:2% ; ">  Fecha : {{subventa[2]}} <p>
+                                      <p style = "margin-top:2% ; ">  Hora : {{subventa[3]}} <p>
+                                      <p style = "margin-top:2% ; ">  Cantidad Total : {{subventa[1]}}$ <p>
                                     </div>
 
                                     <div class="panel-body">
@@ -126,6 +109,69 @@
                                     {% endfor %}
                                 </div>
                             </div>
+                        </div>
+                        <div class="col-lg-6">
+                          <div class = "text-center">
+                            <div class="row">
+                              <div class="col-log-6">
+                                <div class="panel panel-default">
+                                  <div class="panel-heading">
+                                    <div class="text-center">
+                                      <h3 class="panel-title"> Ingresar fecha a calcular</h3>
+                                    </div>
+                                  </div>
+                                  <div class="panel-body">
+                                    <div class="row">
+                                        <div class ="col-sm-6">
+                                          <div  style = "margin-top : 3%;" class="panel-primary">
+                                            <div class="panel-heading">
+                                              <div class="text-center">
+                                                <h3 class="panel-title"> Inicio</h3>
+                                              </div>
+                                            </div>
+
+                                            <div class="panel-body">
+
+                                              <form  role = "form" action="/date" method="post">
+                                                  <input name="date-ini"  type="date" />
+
+
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class ="col-sm-6">
+                                          <div  style = "margin-top : 3%;" class="panel-primary">
+                                            <div class="panel-heading">
+                                              <div class="text-center">
+                                                <h3 class="panel-title"> Fin</h3>
+                                              </div>
+                                            </div>
+
+                                            <div class="panel-body">
+                                                  <input name="date-fin"  type="date" />
+                                            </div>
+                                        </div>
+                                        </div>
+                                        <div class="text-center">
+                                        <input value="Consultar" type="submit" />
+                                        </form>
+                                      </div>
+                                    </div>
+                                      <div style="margin-top : 3%;"class="row">
+                                        <div class="col-sm-12">
+                                          <div class="panel panel-default">
+                                            <div class=panel-heading>
+                                              <div class="text-center">
+                                                <h3 class="panel-title"> ACA DAR RESULTADOS XD </h3>
+                                              </div>
+                                            </div>
+                                          </div>
+                                        </div>
+                                    </div>
+                                  </div>
+                              </div>
+                            </div>
+                          </div>
                         </div>
                     </div>
 

@@ -1,4 +1,5 @@
 from app import app
+from datetime import datetime
 from flask import render_template,request,redirect
 from config import *
 import psycopg2
@@ -136,8 +137,16 @@ def delete(id):
     return  redirect(request.referrer)
 
 @app.route('/ventas_estadisticas.html')
+@app.route('/date', methods = ["POST" , "GET"])
 def ventas():
-    sql = """ select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum(monto*cantidad) as suma
+    if request.method == 'POST': # falta enviar la cantidad del producto
+        date_ini = request.form['date-ini']
+        date_fin = request.form['date-fin']
+        date_now = datetime.now()
+        print date_ini
+        print date_fin
+        print date_now.date()
+    sql = """ select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum( monto * cantidad) as suma
             from ventas_detalle group by num_venta) as t1 ,
             (select num_venta , fecha from ventas group by num_venta) as t2
             where t1.num_venta = t2.num_venta order by t2.num_venta
