@@ -4,7 +4,7 @@
 
 +  https://www.nanotutoriales.com/como-crear-un-usuario-y-asignarle-permisos-en-postgresql
 
-##Algunas cosas útiles :
+## Algunas cosas útiles :
 
 1. Ingresar a Postgres : sudo -i -u postgres
 
