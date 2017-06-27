@@ -78,13 +78,11 @@ def index():
 
 @app.route('/ventas_estadisticas.html')
 def ventas():
-
     sql = """ select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum(monto*cantidad) as suma
             from ventas_detalle group by num_venta) as t1 ,
             (select num_venta , fecha from ventas group by num_venta) as t2
             where t1.num_venta = t2.num_venta order by t2.num_venta
         """
-
     cur.execute(sql)
     ventas = cur.fetchall()
     #print sql
@@ -131,4 +129,5 @@ def ventas():
               from productos,ventas_detalle where productos.id = ventas_detalle.producto_id"""
     cur.execute(sql)
     ventas_detalle = cur.fetchall()
+
     return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle)
