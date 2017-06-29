@@ -214,3 +214,7 @@ def ventas():
     ventas_detalle = cur.fetchall()
 
     return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle)
+
+@app.route('/inventario.html')
+def inventario():
+    return render_template("inventario.html")
