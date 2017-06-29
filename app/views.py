@@ -139,20 +139,27 @@ def delete(id):
 @app.route('/date', methods = ["POST" , "GET"])
 def ventas():
     state = "nothing"
+    fechas = 0
     if request.method == 'POST': # falta enviar la cantidad del producto
 
         date_ini = request.form['date-ini']
         date_fin = request.form['date-fin']
         date_now = datetime.now()
-        year_ini = int(date_ini[0:4])
-        month_ini = int(date_ini[5:7])
-        day_ini = int(date_ini[8:10])
-        year_fin = int(date_fin[0:4])
-        month_fin = int(date_fin[5:7])
-        day_fin = int(date_fin[8:10])
-        year_now = date_now.date().year
-        month_now = date_now.date().month
-        day_now = date_now.date().day
+        date_now = date_now.date
+        date_ini = datetime.strptime(date_ini, '%Y-%m-%d')
+        date_fin = datetime.strptime(date_fin, '%Y-%m-%d')
+        date_ini = date_ini
+        date_fin = date_fin
+        print "date_fin :",date_fin,"date_ini :",date_ini
+        #year_ini = int(date_ini[0:4])
+        #month_ini = int(date_ini[5:7])
+        #day_ini = int(date_ini[8:10])
+        #year_fin = int(date_fin[0:4])
+        #month_fin = int(date_fin[5:7])
+        #day_fin = int(date_fin[8:10])
+        #year_now = date_now.date().year
+        #month_now = date_now.date().month
+        #day_now = date_now.date().day
         #print "year_ini :",year_ini
         #print "month_ini :",month_ini
         #print "day_ini :",day_ini
@@ -163,35 +170,37 @@ def ventas():
         #print "month_now :",month_now
         #print "day_now :",day_now
 
-        if year_ini  >  year_fin or month_ini > month_fin or day_ini > day_fin :
-            if year_ini  >  year_now or month_ini > month_now or day_ini > day_now :
-                #print "fail2"
-                state = "fail2"
-            else :
+        #if date_ini.year  >  date_fin.year or date_ini.month > date_fin.month or date_ini.day > date_fin.day :
+        #    if date_ini.year  >  date_now.year or date_ini.month > date_now.month or date_ini.day > date_now.day :
+        #        #print "fail2"
+        #        state = "fail2"
+        #    else :
                 #print "fail"
-                state ="fail2"
-        elif year_ini  ==  year_fin and month_ini == month_fin and day_ini == day_fin :
-            if year_ini  <=  year_now and month_ini <= month_now and day_ini <= day_now:
-                #print "today"
-                state = "today"
-            else :
+        #        state ="fail2"
+        #elif date_ini.year  ==  date_fin.year and date_ini.month == date_fin.month and date_ini.day == date_fin.day :
+        #    if date_ini.year  <=  date_now.year and date_ini.month <= date_now.month and date_ini.day <= date_now.day:
+        #        print "today"
+        #        state = "today"
+        #    else :
                 #print "fail2"
-                state = "fail2"
-        elif year_ini  <  year_fin or month_ini < month_fin or day_ini < day_fin :
-            if year_now  >=  year_fin or month_now >= month_fin or day_now >= day_fin:
+        #        state = "fail2"
+        #elif date_ini.year  <  date_fin.year or date_ini.month < date_fin.month or date_ini.day < date_fin.day :
+        #    if date_now.year  >=  date_fin.year or date_now.month >= date_fin.month or date_now.day >= date_fin.day:
                 #print "interval"
-                state = "interval"
-            else :
+        #        state = "interval"
+        #    else :
                 #print "fail2"
-                state ="fail2"
-        else :
+        #        state ="fail2"
+        #else :
         #print "nothing"
-            state ="nothing"
+        #    state ="nothing"
 
-        if state == "interval" :
+#        if state == "interval" :
+#            print "caca"
         # Hacer consulta y mostrar cosas
 
-        if state == "today" :
+#        if state == "today" :
+#            print "cacu"
         # Hacer consulta y mostrar cosas del dia
 
     sql = """ select t2.num_venta , t1.suma , t2.fecha
