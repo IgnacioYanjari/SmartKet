@@ -15,12 +15,15 @@ def index():
         prod_id = request.form['pid']
         cant = request.form['cant']
 
+        if not prod_id:
+             return redirect("/index")
+
         sql = """
             SELECT (EXISTS (SELECT 1 FROM ventas_detalle WHERE num_venta=0 and producto_id = ('%s')))::bool;
         """%(prod_id)
         cur.execute(sql)
         exist=cur.fetchone()
-        print "here:",exist
+
         if exist[0]:
              sql = """
                  update ventas_detalle set cantidad = (select cantidad from ventas_detalle where
@@ -29,6 +32,7 @@ def index():
              """%(prod_id, cant, prod_id)
              cur.execute(sql)
              conn.commit()
+
         else:
             sql = """
                 select productos.nombre, stocks.precio from productos, stocks where
