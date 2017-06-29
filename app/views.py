@@ -1,4 +1,5 @@
 from app import app
+from datetime import datetime
 from flask import render_template,request,redirect
 from config import *
 import psycopg2
@@ -79,7 +80,6 @@ def index():
         from ventas_detalle group by num_venta) as t1 ,
         (select num_venta , fecha from ventas group by num_venta) as t2
         where t1.num_venta = t2.num_venta order by t2.num_venta desc limit 10;
-
     """
     # print sql
     cur.execute(sql)
@@ -136,12 +136,62 @@ def delete(id):
     return  redirect(request.referrer)
 
 @app.route('/ventas_estadisticas.html')
+@app.route('/date', methods = ["POST" , "GET"])
 def ventas():
-    sql = """ select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum(monto*cantidad) as suma
-            from ventas_detalle group by num_venta) as t1 ,
-            (select num_venta , fecha from ventas group by num_venta) as t2
-            where t1.num_venta = t2.num_venta order by t2.num_venta
-        """
+    state = "nothing"
+    now = datetime.now().date()
+    if request.method == 'POST': # falta enviar la cantidad del producto
+        sql = """select ventas.num_venta,ventas.fecha from ventas,
+        (select negocios.id as id , min(num_venta) as minimo
+        from ventas,negocios
+        where negocios.id=ventas.negocio_id and negocios.id='1' group by negocios.id) as total
+        where total.id=ventas.negocio_id and ventas.num_venta = total.minimo ; """
+        cur.execute(sql)
+        date_min = cur.fetchone()
+        date_min = date_min[1].date()
+        date_ini = request.form['date-ini']
+        date_fin = request.form['date-fin']
+        date_now = datetime.now()
+        date_now = date_now.date()
+        date_ini = datetime.strptime(date_ini, '%Y-%m-%d')
+        date_fin = datetime.strptime(date_fin, '%Y-%m-%d')
+        date_ini = date_ini.date()
+        date_fin = date_fin.date()
+        print "date_ini :",date_ini,"date_fin :",date_fin,"date_now :",date_now,"date_min :",date_min
+        if date_ini > date_fin :
+            state = "fail2"
+        elif date_ini == date_fin :
+            if date_ini <= date_now :
+                if date_ini >= date_min :
+                    state="today"
+                else :
+                    state = "fail"
+            else :
+                state = "fail2"
+        elif date_ini < date_fin :
+            if date_now >= date_fin :
+                if date_ini >= date_min :
+                    state="interval"
+                else :
+                    state="fail"
+            else :
+                state="fail2"
+        else :
+            state="nothing"
+
+    #        if state == "interval" :
+    #            print "caca"
+            # Hacer consulta y mostrar cosas
+
+    #        if state == "today" :
+    #            print "cacu"
+            # Hacer consulta y mostrar cosas del dia
+
+    sql = """ select t2.num_venta , t1.suma , t2.fecha
+    from (select ventas_detalle.num_venta ,sum( ventas_detalle.monto * ventas_detalle.cantidad) as suma
+    from ventas_detalle,ventas,negocios where negocios.id='1' and negocios.id=ventas.negocio_id and ventas_detalle.num_venta = ventas.num_venta group by ventas_detalle.num_venta) as t1 ,
+    (select ventas.num_venta , fecha from ventas,negocios where ventas.negocio_id = negocios.id and negocios.id='1' group by ventas.num_venta)as t2
+    where t1.num_venta = t2.num_venta order by t2.num_venta;"""
     cur.execute(sql)
     ventas = cur.fetchall()
     #print sql
@@ -184,9 +234,14 @@ def ventas():
 
     #print tupla
 
-    sql = """ select ventas_detalle.num_venta,productos.nombre,ventas_detalle.cantidad,ventas_detalle.monto
-              from productos,ventas_detalle where productos.id = ventas_detalle.producto_id"""
+    sql = """select ventas_detalle.num_venta,productos.nombre,ventas_detalle.cantidad,ventas_detalle.monto
+    from productos,ventas_detalle,ventas,negocios where productos.id = ventas_detalle.producto_id
+    and negocios.id = ventas.negocio_id and ventas.num_venta = ventas_detalle.num_venta and negocios.id='1' ;"""
     cur.execute(sql)
     ventas_detalle = cur.fetchall()
 
-    return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle)
+    return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle, state = state, now = now)
+
+@app.route('/inventario.html')
+def inventario():
+    return render_template("inventario.html")
