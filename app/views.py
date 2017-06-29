@@ -141,6 +141,14 @@ def ventas():
     state = "nothing"
     now = datetime.now().date()
     if request.method == 'POST': # falta enviar la cantidad del producto
+        sql = """select ventas.num_venta,ventas.fecha from ventas,
+        (select negocios.id as id , min(num_venta) as minimo
+        from ventas,negocios
+        where negocios.id=ventas.negocio_id and negocios.id='1' group by negocios.id) as total
+        where total.id=ventas.negocio_id and ventas.num_venta = total.minimo ; """
+        cur.execute(sql)
+        date_min = cur.fetchone()
+        date_min = date_min[1].date()
         date_ini = request.form['date-ini']
         date_fin = request.form['date-fin']
         date_now = datetime.now()
@@ -149,46 +157,27 @@ def ventas():
         date_fin = datetime.strptime(date_fin, '%Y-%m-%d')
         date_ini = date_ini.date()
         date_fin = date_fin.date()
-        print "date_ini :",date_ini,"date_fin :",date_fin,"date_now :",date_now
-        #print "year_ini :",year_ini
-        #print "month_ini :",month_ini
-        #print "day_ini :",day_ini
-        #print "year_fin :",year_fin
-        #print "month_fin :",month_fin
-        #print "day_fin :",day_fin
-        #print "year_now :",year_now
-        #print "month_now :",month_now
-        #print "day_now :",day_now
-
-        if date_ini.year  >  date_fin.year or date_ini.month > date_fin.month or date_ini.day > date_fin.day :
-
-            if date_fin.year  >  date_now.year or date_fin.month > date_now.month or date_fin.day > date_now.day :
+        print "date_ini :",date_ini,"date_fin :",date_fin,"date_now :",date_now,"date_min :",date_min
+        if date_ini > date_fin :
+            state = "fail2"
+        elif date_ini == date_fin :
+            if date_ini <= date_now :
+                if date_ini >= date_min :
+                    state="today"
+                else :
+                    state = "fail"
+            else :
+                state = "fail2"
+        elif date_ini < date_fin :
+            if date_now >= date_fin :
+                if date_ini >= date_min :
+                    state="interval"
+                else :
+                    state="fail"
+            else :
                 state="fail2"
-            elif date_ini.year  >  date_now.year or date_ini.month > date_now.month or date_ini.day > date_now.day :
-                #print "fail2"
-                state = "fail2"
-            else :
-                #print "fail"
-                state ="fail2"
-
-        elif date_ini.year  ==  date_fin.year and date_ini.month == date_fin.month and date_ini.day == date_fin.day :
-            if date_ini.year  <=  date_now.year and date_ini.month <= date_now.month and date_ini.day <= date_now.day:
-                #print "today"
-                state = "today"
-            else :
-                #print "fail2"
-                state = "fail2"
-
-        elif date_ini.year  <  date_fin.year or date_ini.month < date_fin.month or date_ini.day < date_fin.day :
-            if date_now.year  >=  date_fin.year and date_now.month >= date_fin.month and date_now.day >= date_fin.day:
-                #print "interval"
-                state = "interval"
-            else :
-                #print "fail2"
-                state ="fail2"
         else :
-            print "nothing"
-            state ="nothing"
+            state="nothing"
 
     #        if state == "interval" :
     #            print "caca"
