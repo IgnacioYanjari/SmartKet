@@ -80,7 +80,6 @@ def index():
         from ventas_detalle group by num_venta) as t1 ,
         (select num_venta , fecha from ventas group by num_venta) as t2
         where t1.num_venta = t2.num_venta order by t2.num_venta desc limit 10;
-
     """
     # print sql
     cur.execute(sql)
