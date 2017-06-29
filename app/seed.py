@@ -45,7 +45,7 @@ print(negocio)
 
 sql="""
 insert into stocks (negocio_id, producto_id, stock_producto, proveedor_id, precio) values
-('0','0', '10','0','1000')
+('1','0', '10','0','1000')
 returning negocio_id,producto_id, stock_producto, proveedor_id, precio;
 """
 
@@ -282,7 +282,7 @@ print (productos)
 
 fecha=datetime.now()
 sql ="""
-insert into ventas (negocio_id, fecha) values ('0', ('%s'))
+insert into ventas (negocio_id, fecha) values ('1', ('%s'))
 returning
 num_venta, negocio_id, fecha;
 """%(fecha)
@@ -295,7 +295,7 @@ print (ventas)
 
 fecha=datetime.now()
 sql ="""
-insert into ventas (negocio_id, fecha) values ('0', ('%s'))
+insert into ventas (negocio_id, fecha) values ('1', ('%s'))
 returning
 num_venta, negocio_id, fecha;
 """%(fecha)
@@ -308,7 +308,7 @@ print (ventas)
 
 fecha=datetime.now()
 sql ="""
-insert into ventas (negocio_id, fecha) values ('0', ('%s'))
+insert into ventas (negocio_id, fecha) values ('1', ('%s'))
 returning
 num_venta, negocio_id, fecha;
 """%(fecha)

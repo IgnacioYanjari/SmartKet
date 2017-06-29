@@ -138,34 +138,67 @@ def delete(id):
 @app.route('/ventas_estadisticas.html')
 @app.route('/date', methods = ["POST" , "GET"])
 def ventas():
+    state = "nothing"
     if request.method == 'POST': # falta enviar la cantidad del producto
+
         date_ini = request.form['date-ini']
         date_fin = request.form['date-fin']
         date_now = datetime.now()
-        year_ini = date_ini[0:4]
-        month_ini = date_ini[5:7]
-        day_ini = date_ini[8:10]
-        year_fin = date_fin[0:4]
-        month_fin = date_fin[5:7]
-        day_fin = date_fin[8:10]
+        year_ini = int(date_ini[0:4])
+        month_ini = int(date_ini[5:7])
+        day_ini = int(date_ini[8:10])
+        year_fin = int(date_fin[0:4])
+        month_fin = int(date_fin[5:7])
+        day_fin = int(date_fin[8:10])
         year_now = date_now.date().year
         month_now = date_now.date().month
         day_now = date_now.date().day
-        print "year_ini :",year_ini
-        print "month_ini :",month_ini
-        print "day_ini :",day_ini
-        print "year_fin :",year_fin
-        print "month_fin :",month_fin
-        print "day_fin :",day_fin
-        print "year_now :",year_now
-        print "month_now :",month_now
-        print "day_now :",day_now
+        #print "year_ini :",year_ini
+        #print "month_ini :",month_ini
+        #print "day_ini :",day_ini
+        #print "year_fin :",year_fin
+        #print "month_fin :",month_fin
+        #print "day_fin :",day_fin
+        #print "year_now :",year_now
+        #print "month_now :",month_now
+        #print "day_now :",day_now
 
-    sql = """ select t2.num_venta , t1.suma , t2.fecha from (select num_venta ,sum( monto * cantidad) as suma
-            from ventas_detalle group by num_venta) as t1 ,
-            (select num_venta , fecha from ventas group by num_venta) as t2
-            where t1.num_venta = t2.num_venta order by t2.num_venta
-        """
+        if year_ini  >  year_fin or month_ini > month_fin or day_ini > day_fin :
+            if year_ini  >  year_now or month_ini > month_now or day_ini > day_now :
+                #print "fail2"
+                state = "fail2"
+            else :
+                #print "fail"
+                state ="fail2"
+        elif year_ini  ==  year_fin and month_ini == month_fin and day_ini == day_fin :
+            if year_ini  <=  year_now and month_ini <= month_now and day_ini <= day_now:
+                #print "today"
+                state = "today"
+            else :
+                #print "fail2"
+                state = "fail2"
+        elif year_ini  <  year_fin or month_ini < month_fin or day_ini < day_fin :
+            if year_now  >=  year_fin or month_now >= month_fin or day_now >= day_fin:
+                #print "interval"
+                state = "interval"
+            else :
+                #print "fail2"
+                state ="fail2"
+        else :
+        #print "nothing"
+            state ="nothing"
+
+        if state == "interval" :
+        # Hacer consulta y mostrar cosas
+
+        if state == "today" :
+        # Hacer consulta y mostrar cosas del dia
+
+    sql = """ select t2.num_venta , t1.suma , t2.fecha
+    from (select ventas_detalle.num_venta ,sum( ventas_detalle.monto * ventas_detalle.cantidad) as suma
+    from ventas_detalle,ventas,negocios where negocios.id='1' and negocios.id=ventas.negocio_id and ventas_detalle.num_venta = ventas.num_venta group by ventas_detalle.num_venta) as t1 ,
+    (select ventas.num_venta , fecha from ventas,negocios where ventas.negocio_id = negocios.id and negocios.id='1' group by ventas.num_venta)as t2
+    where t1.num_venta = t2.num_venta order by t2.num_venta;"""
     cur.execute(sql)
     ventas = cur.fetchall()
     #print sql
@@ -208,12 +241,13 @@ def ventas():
 
     #print tupla
 
-    sql = """ select ventas_detalle.num_venta,productos.nombre,ventas_detalle.cantidad,ventas_detalle.monto
-              from productos,ventas_detalle where productos.id = ventas_detalle.producto_id"""
+    sql = """select ventas_detalle.num_venta,productos.nombre,ventas_detalle.cantidad,ventas_detalle.monto
+    from productos,ventas_detalle,ventas,negocios where productos.id = ventas_detalle.producto_id
+    and negocios.id = ventas.negocio_id and ventas.num_venta = ventas_detalle.num_venta and negocios.id='1' ;"""
     cur.execute(sql)
     ventas_detalle = cur.fetchall()
 
-    return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle)
+    return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle, state = state)
 
 @app.route('/inventario.html')
 def inventario():
