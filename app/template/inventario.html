@@ -49,10 +49,38 @@
                     </div>
                 </div>
               </div>
+              <form role="form" action="/inventario.html" method="POST">
+                  <div class="form-group">
+                      <div class="col-xs-3">
+                          <input type="text" autofocus="autofocus" class="form-control" name="producto">
+                      </div>
+                  </div>
+                  <button type="submit" class="btn btn-primary">consultar</button>
+                  <button  class="btn btn-primary">Stock disponible = {{stock[0]}}</button>
+              </form>
+                <div class="row">
+                    <div class="col-lg-6">
+                        <div class="panel panel-default">
+                              <div class="panel-heading">
+                                <div class="text-center">
+                                  <h3 class="panel-title">stocks</h3>
+                                </div>
+                              </div>
 
-              <div class = "text-center">
-                <a href="#"> chupala qlo </a>
-              </div>
+                            <div class="panel-body">
+            <div class="progress-outer">
+                <div class="progress">
+                    <div class="progress-bar progress-bar-info progress-bar-striped active" style="width:10%; box-shadow:-1px 10px 10px rgba(91, 192, 222, 0.7);"></div>
+                    <div class="col-lg-6">hola </div>
+                    <div class="progress-value">{{stock[0]}}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
 
 
 
