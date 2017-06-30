@@ -221,6 +221,7 @@ def vender():
 @app.route('/date', methods = ["POST" , "GET"])
 def ventas():
     importantData=[]
+    top5 ="malo"
     state = "nothing"
     now = datetime.now().date()
     if request.method == 'POST': # falta enviar la cantidad del producto
@@ -264,7 +265,7 @@ def ventas():
         else :
             state="nothing"
 
-        print "STATE:",state
+        #print "STATE:",state
 
         if state == "interval" or state =="today" :
             sql = """
@@ -317,17 +318,6 @@ def ventas():
                     importantData.append("No se realizaron ventas")
             else :
                 importantData.append("No se realizaron ventas")
-
-
-
-
-    #        if state == "interval" :
-    #            print "caca"
-            # Hacer consulta y mostrar cosas
-
-    #        if state == "today" :
-    #            print "cacu"
-            # Hacer consulta y mostrar cosas del dia
 
     sql = """ select t2.num_venta , t1.suma , t2.fecha
     from (select ventas_detalle.num_venta ,sum( ventas_detalle.monto * ventas_detalle.cantidad) as suma
@@ -385,6 +375,8 @@ def ventas():
     print sql
     cur.execute(sql)
     ventas_detalle = cur.fetchall()
+
+
 
     return render_template("ventas_estadisticas.html" , ventas = tupla,
         ventas_detalle = ventas_detalle, state = state, now = now, importantData = importantData, top5 =top5 )
