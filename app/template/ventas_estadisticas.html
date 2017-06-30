@@ -151,7 +151,7 @@
                                 <div class="panel panel-default">
                                   <div class="panel-heading">
                                     <div class="text-center">
-                                      <h3 class="panel-title"> Datos Importantes En :  </h3>
+                                      <h3 class="panel-title"> Datos importantes en :  </h3>
                                     </div>
                                   </div>
                                   <div class="panel-body">
@@ -184,7 +184,7 @@
                                           </div>
                                         </div>
                                         <div class="text-center">
-                                        <input value="Consultar" type="submit" />
+                                        <input class="btn btn-primary" value="Consultar" type="submit" />
                                         <!-- definir valor por defecto -->
                                         </form>
                                       </div>
@@ -217,6 +217,7 @@
                                               <div class="text-center">
                                                 <h3 class="panel-title"> CASO HOY </h3>
                                               </div>
+
                                               {% endif %}
 
                                               {% if state == "interval"%}
@@ -225,6 +226,12 @@
                                               </div>
                                               {% endif%}
 
+                                            </div>
+                                            <div class="panel-body">
+                                                {% if state == "interval" or state == "today"%}
+                                                Ganancia bruta: ${{importantData[0]}}<br>
+                                                Producto más vendido: {{importantData[1]}}<br>
+                                                {% endif %}
                                             </div>
                                           </div>
                                         </div>

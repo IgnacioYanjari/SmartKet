@@ -211,6 +211,7 @@ def vender():
 @app.route('/ventas_estadisticas.html')
 @app.route('/date', methods = ["POST" , "GET"])
 def ventas():
+    importantData=[]
     state = "nothing"
     now = datetime.now().date()
     if request.method == 'POST': # falta enviar la cantidad del producto
@@ -251,6 +252,32 @@ def ventas():
                 state="fail2"
         else :
             state="nothing"
+
+        sql = """
+            select sum(x.total) from (select num_venta, sum(monto*cantidad) as total
+            from ventas_detalle group by num_venta) as x, ventas, ventas_detalle, negocios
+            where negocios.id = '1' and ventas.negocio_id=negocios.id and ventas.num_venta=ventas_detalle.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s');
+        """%(date_ini, date_fin)
+        print sql
+        cur.execute(sql)
+        ganancia = cur.fetchone()
+
+        sql = """
+            select nombre from (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
+            and ventas.negocio_id=negocios.id and
+            ventas_detalle.num_venta=ventas.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as x, productos
+            where productos.id = x.producto_id and x.sum=(select max(t.sum) from
+            (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
+            and ventas.negocio_id=negocios.id and ventas_detalle.num_venta=ventas.num_venta
+            and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as t);
+        """%(date_ini, date_fin,date_ini, date_fin)
+        print sql
+        cur.execute(sql)
+        masvendido = cur.fetchone()
+
+        importantData.append(ganancia[0])
+        importantData.append(masvendido[0])
+
 
     #        if state == "interval" :
     #            print "caca"
@@ -313,7 +340,8 @@ def ventas():
     cur.execute(sql)
     ventas_detalle = cur.fetchall()
 
-    return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle, state = state, now = now)
+    return render_template("ventas_estadisticas.html" , ventas = tupla,
+        ventas_detalle = ventas_detalle, state = state, now = now, importantData = importantData)
 
 @app.route('/inventario.html')
 def inventario():
