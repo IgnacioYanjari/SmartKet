@@ -11,18 +11,45 @@ cur = conn.cursor()
 @app.route('/index', methods=['POST', 'GET'])
 def index():
     if request.method == 'POST': # falta enviar la cantidad del producto
-        print request.form
         prod_id = request.form['pid']
         cant = request.form['cant']
 
         if not prod_id:
              return redirect("/index")
 
+        else:
+            sql = """
+                SELECT (EXISTS (SELECT 1 FROM productos WHERE id = ('%s')))::bool;
+            """%(prod_id)
+            cur.execute(sql)
+            isOnTable=cur.fetchone()
+            if not isOnTable[0]:
+                return redirect("/index")
+
+        sql = """
+            select stock_producto from stocks where producto_id=('%s');
+        """%(prod_id)
+        print sql
+        cur.execute(sql)
+        cant_stock=cur.fetchone()
+        cant_stock=int(cant_stock[0])
+
+        if int(cant) > cant_stock:
+            print "La cantidad de producto que desea llevar sobrepasa la cantidad en stock"
+            return redirect("/index", code=303)
+
         sql = """
             SELECT (EXISTS (SELECT 1 FROM ventas_detalle WHERE num_venta=0 and producto_id = ('%s')))::bool;
         """%(prod_id)
         cur.execute(sql)
         exist=cur.fetchone()
+
+        nuevo_stock = cant_stock - int(cant)
+        sql = """
+            update stocks set stock_producto=('%s') where producto_id=('%s');
+        """%(nuevo_stock, prod_id)
+        cur.execute(sql)
+        conn.commit()
 
         if exist[0]:
              sql = """
@@ -40,7 +67,7 @@ def index():
             """%(prod_id)
             cur.execute(sql)
             p_info=cur.fetchone()
-            print p_info
+            print sql
 
     	    sql = """
                 insert into ventas_detalle (num_venta, producto_id, monto, cantidad) values(0,%s,%s,%s);
@@ -67,6 +94,7 @@ def index():
         select nombre, cantidad, monto*cantidad as total, producto_id from ventas_detalle, productos
         where ventas_detalle.producto_id=productos.id and num_venta='0';
     """
+    print sql
     cur.execute(sql)
     venta_actual = cur.fetchall()
 
@@ -74,6 +102,7 @@ def index():
         select sum(monto*cantidad) as total from ventas_detalle, productos
         where ventas_detalle.producto_id=productos.id and num_venta='0';
     """
+    print sql
     cur.execute(sql)
     total_venta = cur.fetchone()
     if not total_venta[0]:
@@ -85,10 +114,9 @@ def index():
         (select num_venta , fecha from ventas group by num_venta) as t2
         where t1.num_venta = t2.num_venta order by t2.num_venta desc limit 10;
     """
-    # print sql
+    print sql
     cur.execute(sql)
     ventas = cur.fetchall()
-    #print ventas
 
     tupla =[]
     for subventa in ventas:
@@ -133,8 +161,49 @@ def index():
 @app.route('/delete/<id>')
 def delete(id):
     sql="""
+        update stocks set stock_producto = (select cantidad + stock_producto from ventas_detalle,
+        stocks where num_venta=0 and ventas_detalle.producto_id=('%s')
+        and ventas_detalle.producto_id=stocks.producto_id) where producto_id=('%s');
+    """%(id,id)
+    print sql
+    cur.execute(sql)
+
+    sql="""
         delete from ventas_detalle where num_venta=0 and producto_id=('%s');
     """%(id)
+    cur.execute(sql)
+    conn.commit()
+    return  redirect(request.referrer)
+
+@app.route('/vender')
+def vender():
+    sql="""
+        select * from ventas_detalle where num_venta=0;
+    """
+    print sql
+    cur.execute(sql)
+    venta = cur.fetchall()
+
+    if not venta:
+        print "No se han seleccionado productos para vender, no se ejecuta venta"
+        return redirect("/index")
+
+    sql = """
+        select max(num_venta) from ventas_detalle;
+    """
+    print sql
+    cur.execute(sql)
+    maxNum_venta = cur.fetchone()
+    num_ventaActual = maxNum_venta[0]+1
+    sql = """
+        update ventas_detalle set num_venta = ('%s') where num_venta=0;
+    """%(num_ventaActual)
+    cur.execute(sql)
+
+    fecha = datetime.now()
+    sql = """
+        insert into ventas (num_venta,negocio_id,fecha) values(('%s'),1,('%s'));
+    """%(num_ventaActual, fecha)
     cur.execute(sql)
     conn.commit()
     return  redirect(request.referrer)
