@@ -49,6 +49,15 @@
                     </div>
                 </div>
               </div>
+              <div class="col-lg-6">
+                  <div class="panel panel-default">
+                        <div class="panel-heading">
+                          <div class="text-center">
+                            <h3 class="panel-title">Stock de Producto:</h3>
+                          </div>
+                        </div>
+
+                        <div class="panel-body" style="overflow-y: scroll; height:8cm;" >
               <form role="form" action="/inventario.html" method="POST">
                   <div class="form-group">
                       <div class="col-xs-3">
@@ -58,9 +67,22 @@
                   <button type="submit" class="btn btn-primary">consultar</button>
                   <button  class="btn btn-primary">Stock disponible {{stock[0]}}</button>
               </form>
+            </div>
+        </div>
+    </div>
               <div style="margin-right">
+                <div class="col-lg-6">
+                    <div class="panel panel-default">
+                          <div class="panel-heading">
+                            <div class="text-center">
+                              <h3 class="panel-title">Stock de Producto:</h3>
+                            </div>
+                          </div>
 
-                <strong>Nuevo Producto</strong><
+                        <div class="panel-body" style="overflow-y: scroll;" >
+                          <h1 style="margin-top : 3% "  class="page-header">
+                          </h1>
+                <strong>Nuevo Producto</strong>
 
             <form role="form" action="/anadir_prod" method="post">
                 <div class="form-group">
@@ -80,22 +102,30 @@
                         <input type="text" class="form-control" name="precio" value="Precio">
                     </div>
                 </div>
-                <button type="submit" class="btn btn-primary">Añadir</button>
+                <h1 style="margin-top : 2% ">
+              <div class="text-center">
+                  <button type="submit" class="btn btn-primary text-center">Añadir</button>
+                  </div>
+                  </h1>
             </form>
+            <h1 style="margin-top : 3% "  class="page-header">
+            </h1>
                 <strong>Producto Existente</strong>
             <form role="form" action="/anadir_stock" method="POST">
                 <div class="form-group">
                     <div class="col-xs-3">
                         <input type="text" autofocus="autofocus" class="form-control" name="nombre1"value="Nombre">
                     </div>
-                    <div class="col-xs-2">
+                    <div class="col-xs-3">
                         <input type="text" class="form-control" name="cantidad1" value="cantidad">
                     </div>
                 </div>
                 <button type="submit" class="btn btn-primary">Añadir</button>
             </form>
         </div>
-
+      </div>
+    </div>
+    </div>
 
 
               <div  style = "margin-top : 3%;" </div>
@@ -104,7 +134,7 @@
                         <div class="panel panel-default">
                               <div class="panel-heading">
                                 <div class="text-center">
-                                  <h3 class="panel-title">stocks</h3>
+                                  <h3 class="panel-title">Stocks:</h3>
                                 </div>
                               </div>
                             <div class="panel-body">
