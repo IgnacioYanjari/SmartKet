@@ -230,24 +230,30 @@
                                             <div class="panel-body">
                                                 {% if state == "interval" or state == "today"%}
                                                     <h4>Ganancia bruta: {{importantData[0]}}</h4>
-                                                    <div class="panel panel-primary">
+                                                    {%  if importantData[1] != "No se realizaron ventas"%}
+                                                    <div class="panel panel-default">
                                                       <div class="panel-heading">
                                                         <div class="text-center">
-                                                            <h4> Top 5 Productos más vendidos </h4>
+                                                            <h4><strong> Top 5 Productos más vendidos </strong></h4>
                                                         </div>
                                                       </div class="panel-body">
+
                                                       <div style="margin-top:3%;"class="table-responsive">
                                                         <table class="table table-bordered table-hover table-striped">
                                                           <tbody>
-                                                            {% for prod in top5%}
+                                                            {% for prod in top5 %}
                                                               <tr>
                                                                 <td>{{prod[0]}}</td>
                                                               </tr>
                                                             {% endfor%}
                                                           </tbody>
-
                                                         </table>
                                                       </div>
+                                                      {% endif %}
+                                                      {% if importantData[1] == "No se realizaron ventas"  %}
+                                                        <h4>Top 5 Productos más vendidos: {{importantData[1]}}</h4>
+                                                      {% endif %}
+
                                                   {% endif %}
                                                       <div>
 
