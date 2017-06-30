@@ -190,7 +190,7 @@
                                       </div>
                                     </div>
                                       <div style="margin-top : 3%;"class="row">
-                                        <div class="col-sm-11">
+                                        <div class="col-sm-12">
                                           <div class="panel panel-default">
                                             <div class=panel-heading>
 
@@ -215,23 +215,51 @@
 
                                               {% if state == "today"%}
                                               <div class="text-center">
-                                                <h3 class="panel-title"> CASO HOY </h3>
+                                                <h3 class="panel-title"> HOY : </h3>
                                               </div>
 
                                               {% endif %}
 
                                               {% if state == "interval"%}
                                               <div class="text-center">
-                                                <h3 class="panel-title"> CASO INTERVALO </h3>
+                                                <h3 class="panel-title"> INTERVALO :</h3>
                                               </div>
                                               {% endif%}
 
                                             </div>
                                             <div class="panel-body">
                                                 {% if state == "interval" or state == "today"%}
-                                                Ganancia bruta: ${{importantData[0]}}<br>
-                                                Producto más vendido: {{importantData[1]}}<br>
-                                                {% endif %}
+                                                    <h4>Ganancia bruta: {{importantData[0]}}</h4>
+                                                    {%  if importantData[1] != "No se realizaron ventas"%}
+                                                    <div class="panel panel-default">
+                                                      <div class="panel-heading">
+                                                        <div class="text-center">
+                                                            <h4><strong> Top 5 Productos más vendidos </strong></h4>
+                                                        </div>
+                                                      </div class="panel-body">
+
+                                                      <div style="margin-top:3%;"class="table-responsive">
+                                                        <table class="table table-bordered table-hover table-striped">
+                                                          <tbody>
+                                                            {% for prod in top5 %}
+                                                              <tr>
+                                                                <td>{{prod[0]}}</td>
+                                                              </tr>
+                                                            {% endfor%}
+                                                          </tbody>
+                                                        </table>
+                                                      </div>
+                                                      {% endif %}
+                                                      {% if importantData[1] == "No se realizaron ventas"  %}
+                                                        <h4>Top 5 Productos más vendidos: {{importantData[1]}}</h4>
+                                                      {% endif %}
+
+                                                  {% endif %}
+                                                      <div>
+
+                                                      </div>
+                                                    </div>
+
                                             </div>
                                           </div>
                                         </div>
