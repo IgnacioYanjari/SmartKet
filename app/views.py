@@ -315,6 +315,73 @@ def ventas():
 
     return render_template("ventas_estadisticas.html" , ventas = tupla, ventas_detalle = ventas_detalle, state = state, now = now)
 
-@app.route('/inventario.html')
+@app.route('/inventario.html', methods = ["POST" , "GET"])
 def inventario():
-    return render_template("inventario.html")
+    sql = """
+    select stocks.stock_producto , productos.nombre from productos, stocks where stocks.negocio_id = 1
+    and productos.id = stocks.producto_id;
+    """
+    cur.execute(sql)
+    todo = cur.fetchall()
+
+    sql = """
+    select max(stocks.stock_producto) from productos, stocks where stocks.negocio_id =1
+    and productos.id = stocks.producto_id;
+    """
+    cur.execute(sql)
+    maxi = cur.fetchone()
+    todo1 = []
+    for i in todo:
+        todo1.append([i[0],i[1],(float(i[0])/float(maxi[0]))*100])
+
+    if request.method == 'POST':
+        prod = request.form['producto']
+        sql = """
+        select stocks.stock_producto from stocks, productos where stocks.negocio_id = 1
+        and stocks.producto_id = productos.id and productos.nombre = ('%s')
+        """%(prod)
+        cur.execute(sql)
+        stock = cur.fetchone()
+
+        return render_template("inventario.html", stock = stock, todo = todo1)
+
+    return render_template("inventario.html", stock = '0', todo = todo1)
+
+@app.route('/anadir_stock', methods = ["POST" , "GET"])
+def anadir_stock():
+    if request.method == 'POST':
+        nombre1 = request.form['nombre1']
+        cantidad1 = request.form['cantidad1']
+        sql = """
+        select stocks.stock_producto , stocks.producto_id from stocks ,
+        productos where stocks.negocio_id = '1' and stocks.producto_id = productos.id and productos.nombre = ('%s');
+        """%(nombre1)
+        cur.execute(sql)
+        print sql
+        stock1 = cur.fetchone()
+        print stock1
+        n_stock = stock1[0]+int(cantidad1)
+        sql = """
+        update stocks set stock_producto = ('%s') where stocks.negocio_id = '1' and stocks.producto_id =('%s');
+        """%(n_stock, stock1[1])
+        print sql
+        cur.execute(sql)
+        return  redirect(request.referrer)
+@app.route('/anadir_prod', methods = ["POST" , "GET"])
+def anadir_prod():
+    if request.method == 'POST':
+        nombre = request.form['nombre0']
+        detalle = request.form['detalle']
+        id1 = request.form['id1']
+        cant = request.form['cant']
+        precio = request.form['precio']
+        sql = """
+        insert into productos values (('%s'),('%s'),('%s'));
+        """%(id1,nombre,detalle)
+        cur.execute(sql)
+        sql = """
+        insert into stocks values('1',(%s),(%s),'0',(%s))
+        """%(id1,cant,precio)
+        cur.execute(sql)
+        return  redirect(request.referrer)
+
