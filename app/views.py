@@ -290,6 +290,17 @@ def ventas():
             print sql
             cur.execute(sql)
             masvendido = cur.fetchone()
+            sql ="""
+            select productos.nombre , x.sum from (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
+            and ventas.negocio_id=negocios.id and
+            ventas_detalle.num_venta=ventas.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as x, productos
+            where productos.id = x.producto_id order by x.sum desc limit 5
+            """%(date_ini, date_fin)
+            cur.execute(sql)
+            top5=cur.fetchall()
+            print "Buscar el top 5 de los mas vendidos"
+            print top5
+
             if ganancia is not None  :
                 if ganancia[0] is not None :
                     importantData.append("$"+str(ganancia[0]))
@@ -306,6 +317,7 @@ def ventas():
                     importantData.append("No se realizaron ventas")
             else :
                 importantData.append("No se realizaron ventas")
+
 
 
 
@@ -375,7 +387,7 @@ def ventas():
     ventas_detalle = cur.fetchall()
 
     return render_template("ventas_estadisticas.html" , ventas = tupla,
-        ventas_detalle = ventas_detalle, state = state, now = now, importantData = importantData)
+        ventas_detalle = ventas_detalle, state = state, now = now, importantData = importantData, top5 =top5 )
 
 @app.route('/inventario.html', methods = ["POST" , "GET"])
 def inventario():

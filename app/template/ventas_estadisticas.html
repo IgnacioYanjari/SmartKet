@@ -229,9 +229,31 @@
                                             </div>
                                             <div class="panel-body">
                                                 {% if state == "interval" or state == "today"%}
-                                                    Ganancia bruta: {{importantData[0]}}<br>
-                                                    Producto más vendido: {{importantData[1]}}<br>
-                                                {% endif %}
+                                                    <h4>Ganancia bruta: {{importantData[0]}}</h4>
+                                                    <div class="panel panel-primary">
+                                                      <div class="panel-heading">
+                                                        <div class="text-center">
+                                                            <h4> Top 5 Productos más vendidos </h4>
+                                                        </div>
+                                                      </div class="panel-body">
+                                                      <div style="margin-top:3%;"class="table-responsive">
+                                                        <table class="table table-bordered table-hover table-striped">
+                                                          <tbody>
+                                                            {% for prod in top5%}
+                                                              <tr>
+                                                                <td>{{prod[0]}}</td>
+                                                              </tr>
+                                                            {% endfor%}
+                                                          </tbody>
+
+                                                        </table>
+                                                      </div>
+                                                  {% endif %}
+                                                      <div>
+
+                                                      </div>
+                                                    </div>
+
                                             </div>
                                           </div>
                                         </div>
