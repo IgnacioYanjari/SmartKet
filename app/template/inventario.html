@@ -52,12 +52,53 @@
               <form role="form" action="/inventario.html" method="POST">
                   <div class="form-group">
                       <div class="col-xs-3">
-                          <input type="text" autofocus="autofocus" class="form-control" name="producto">
+                          <input type="text" autofocus="autofocus" class="form-control" name="producto" value="producto">
                       </div>
                   </div>
                   <button type="submit" class="btn btn-primary">consultar</button>
-                  <button  class="btn btn-primary">Stock disponible = {{stock[0]}}</button>
+                  <button  class="btn btn-primary">Stock disponible {{stock[0]}}</button>
               </form>
+              <div style="margin-right">
+
+                <strong>Nuevo Producto</strong><
+
+            <form role="form" action="/anadir_prod" method="post">
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <input type="text" autofocus="autofocus" class="form-control" name="nombre0"value="Nombre">
+                    </div>
+                    <div class="col-xs-3">
+                        <input type="text" autofocus="autofocus" class="form-control" name="detalle" value="Detalles">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" name="cant" value="cant">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" name="id1" value="id">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" name="precio" value="Precio">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Añadir</button>
+            </form>
+                <strong>Producto Existente</strong>
+            <form role="form" action="/anadir_stock" method="POST">
+                <div class="form-group">
+                    <div class="col-xs-3">
+                        <input type="text" autofocus="autofocus" class="form-control" name="nombre1"value="Nombre">
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="text" class="form-control" name="cantidad1" value="cantidad">
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Añadir</button>
+            </form>
+        </div>
+
+
+
+              <div  style = "margin-top : 3%;" </div>
                 <div class="row">
                     <div class="col-lg-6">
                         <div class="panel panel-default">
@@ -66,15 +107,17 @@
                                   <h3 class="panel-title">stocks</h3>
                                 </div>
                               </div>
-
                             <div class="panel-body">
+
+                        {% for prod in todo %}
             <div class="progress-outer">
                 <div class="progress">
-                    <div class="progress-bar progress-bar-info progress-bar-striped active" style="width:10%; box-shadow:-1px 10px 10px rgba(91, 192, 222, 0.7);"></div>
-                    <div class="col-lg-6">hola </div>
-                    <div class="progress-value">{{stock[0]}}</div>
+                  <div class="progress-bar progress-bar-info progress-bar-striped active" style="width:{{prod[2]}}%; box-shadow:-1px 10px 10px rgba(91, 192, 222, 0.7);">
+                  <div class="progress-value"> {{prod[1]}} {{prod[0]}}</div>
+                </div>
                 </div>
             </div>
+            {% endfor %}
         </div>
     </div>
 </div>
