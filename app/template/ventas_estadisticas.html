@@ -190,7 +190,7 @@
                                       </div>
                                     </div>
                                       <div style="margin-top : 3%;"class="row">
-                                        <div class="col-sm-11">
+                                        <div class="col-sm-12">
                                           <div class="panel panel-default">
                                             <div class=panel-heading>
 
@@ -229,8 +229,8 @@
                                             </div>
                                             <div class="panel-body">
                                                 {% if state == "interval" or state == "today"%}
-                                                Ganancia bruta: ${{importantData[0]}}<br>
-                                                Producto más vendido: {{importantData[1]}}<br>
+                                                    Ganancia bruta: {{importantData[0]}}<br>
+                                                    Producto más vendido: {{importantData[1]}}<br>
                                                 {% endif %}
                                             </div>
                                           </div>

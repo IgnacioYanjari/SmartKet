@@ -29,6 +29,7 @@ def index():
         sql = """
             select stock_producto from stocks where producto_id=('%s');
         """%(prod_id)
+        print "Obtener el stock del producto"
         print sql
         cur.execute(sql)
         cant_stock=cur.fetchone()
@@ -57,6 +58,7 @@ def index():
                  producto_id=('%s') and num_venta=0)+('%s')
                  where num_venta=0 and producto_id=('%s')
              """%(prod_id, cant, prod_id)
+
              cur.execute(sql)
              conn.commit()
 
@@ -65,6 +67,7 @@ def index():
                 select productos.nombre, stocks.precio from productos, stocks where
                 productos.id=stocks.producto_id and stocks.negocio_id=1 and productos.id=('%s');
             """%(prod_id)
+            print "Obtener precio de producto"
             cur.execute(sql)
             p_info=cur.fetchone()
             print sql
@@ -78,6 +81,7 @@ def index():
     sql = """
         select nombre from duenos where id = '1';
     """
+    print "Obtener nombre de dueno"
     print sql
     cur.execute(sql)
     duenos = cur.fetchone()
@@ -86,6 +90,7 @@ def index():
         select negocios.telefono , negocios.calle
         from negocios  where  negocios.id='1';
     """
+    print "Obtener telefono de negocio"
     print sql
     cur.execute(sql)
     datos = cur.fetchone()
@@ -94,6 +99,7 @@ def index():
         select nombre, cantidad, monto*cantidad as total, producto_id from ventas_detalle, productos
         where ventas_detalle.producto_id=productos.id and num_venta='0';
     """
+    print "Obtener nombre del producto , cantidad y monto total vendido"
     print sql
     cur.execute(sql)
     venta_actual = cur.fetchall()
@@ -102,6 +108,7 @@ def index():
         select sum(monto*cantidad) as total from ventas_detalle, productos
         where ventas_detalle.producto_id=productos.id and num_venta='0';
     """
+    print "Obtener suma total "
     print sql
     cur.execute(sql)
     total_venta = cur.fetchone()
@@ -114,6 +121,7 @@ def index():
         (select num_venta , fecha from ventas group by num_venta) as t2
         where t1.num_venta = t2.num_venta order by t2.num_venta desc limit 10;
     """
+    print "Obtener fecha y ganancia total de cada numero de venta"
     print sql
     cur.execute(sql)
     ventas = cur.fetchall()
@@ -180,6 +188,7 @@ def vender():
     sql="""
         select * from ventas_detalle where num_venta=0;
     """
+    print "seleccionar todo de ventas_detalle"
     print sql
     cur.execute(sql)
     venta = cur.fetchall()
@@ -220,6 +229,8 @@ def ventas():
         from ventas,negocios
         where negocios.id=ventas.negocio_id and negocios.id='1' group by negocios.id) as total
         where total.id=ventas.negocio_id and ventas.num_venta = total.minimo ; """
+        print "Minima Fecha :"
+        print sql
         cur.execute(sql)
         date_min = cur.fetchone()
         date_min = date_min[1].date()
@@ -253,30 +264,49 @@ def ventas():
         else :
             state="nothing"
 
-        sql = """
-            select sum(x.total) from (select num_venta, sum(monto*cantidad) as total
-            from ventas_detalle group by num_venta) as x, ventas, ventas_detalle, negocios
-            where negocios.id = '1' and ventas.negocio_id=negocios.id and ventas.num_venta=ventas_detalle.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s');
-        """%(date_ini, date_fin)
-        print sql
-        cur.execute(sql)
-        ganancia = cur.fetchone()
+        print "STATE:",state
 
-        sql = """
-            select nombre from (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
-            and ventas.negocio_id=negocios.id and
-            ventas_detalle.num_venta=ventas.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as x, productos
-            where productos.id = x.producto_id and x.sum=(select max(t.sum) from
-            (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
-            and ventas.negocio_id=negocios.id and ventas_detalle.num_venta=ventas.num_venta
-            and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as t);
-        """%(date_ini, date_fin,date_ini, date_fin)
-        print sql
-        cur.execute(sql)
-        masvendido = cur.fetchone()
+        if state == "interval" or state =="today" :
+            sql = """
+                select sum(x.total) from (select num_venta, sum(monto*cantidad) as total
+                from ventas_detalle group by num_venta) as x, ventas, ventas_detalle, negocios
+                where negocios.id = '1' and ventas.negocio_id=negocios.id and ventas.num_venta=ventas_detalle.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s');
+            """%(date_ini, date_fin)
+            print "Ganancia total en intervalo"
+            print sql
+            cur.execute(sql)
+            ganancia = cur.fetchone()
 
-        importantData.append(ganancia[0])
-        importantData.append(masvendido[0])
+            sql = """
+                select nombre from (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
+                and ventas.negocio_id=negocios.id and
+                ventas_detalle.num_venta=ventas.num_venta and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as x, productos
+                where productos.id = x.producto_id and x.sum=(select max(t.sum) from
+                (select producto_id, sum(cantidad) from ventas_detalle, ventas, negocios where negocios.id='1'
+                and ventas.negocio_id=negocios.id and ventas_detalle.num_venta=ventas.num_venta
+                and DATE(fecha) BETWEEN ('%s') AND ('%s') group by producto_id) as t);
+            """%(date_ini, date_fin,date_ini, date_fin)
+            print "Producto mas vendido en intervalo"
+            print sql
+            cur.execute(sql)
+            masvendido = cur.fetchone()
+            if ganancia is not None  :
+                if ganancia[0] is not None :
+                    importantData.append("$"+str(ganancia[0]))
+                else :
+                    importantData.append("No se obtuvo ganancia")
+            else :
+                importantData.append("No se obtuvo ganancia")
+
+            if  masvendido is not None:
+
+                if masvendido[0] is not None:
+                    importantData.append(masvendido[0])
+                else :
+                    importantData.append("No se realizaron ventas")
+            else :
+                importantData.append("No se realizaron ventas")
+
 
 
     #        if state == "interval" :
@@ -292,6 +322,8 @@ def ventas():
     from ventas_detalle,ventas,negocios where negocios.id='1' and negocios.id=ventas.negocio_id and ventas_detalle.num_venta = ventas.num_venta group by ventas_detalle.num_venta) as t1 ,
     (select ventas.num_venta , fecha from ventas,negocios where ventas.negocio_id = negocios.id and negocios.id='1' group by ventas.num_venta)as t2
     where t1.num_venta = t2.num_venta order by t2.num_venta;"""
+    print "Obtener ventas con ganancia total y fecha"
+    print sql
     cur.execute(sql)
     ventas = cur.fetchall()
     #print sql
@@ -337,6 +369,8 @@ def ventas():
     sql = """select ventas_detalle.num_venta,productos.nombre,ventas_detalle.cantidad,ventas_detalle.monto
     from productos,ventas_detalle,ventas,negocios where productos.id = ventas_detalle.producto_id
     and negocios.id = ventas.negocio_id and ventas.num_venta = ventas_detalle.num_venta and negocios.id='1' ;"""
+    print "Obtener productos y detalles de cada venta"
+    print sql
     cur.execute(sql)
     ventas_detalle = cur.fetchall()
 
@@ -349,6 +383,8 @@ def inventario():
     select stocks.stock_producto , productos.nombre from productos, stocks where stocks.negocio_id = 1
     and productos.id = stocks.producto_id;
     """
+    print "Obtener el producto de el stock"
+    print sql
     cur.execute(sql)
     todo = cur.fetchall()
 
@@ -356,6 +392,8 @@ def inventario():
     select max(stocks.stock_producto) from productos, stocks where stocks.negocio_id =1
     and productos.id = stocks.producto_id;
     """
+    print "Obtener maximo stock"
+    print sql
     cur.execute(sql)
     maxi = cur.fetchone()
     todo1 = []
@@ -368,6 +406,8 @@ def inventario():
         select stocks.stock_producto from stocks, productos where stocks.negocio_id = 1
         and stocks.producto_id = productos.id and productos.nombre = ('%s')
         """%(prod)
+        print "Obtener stock de producto gracias a un nombre"
+        print sql
         cur.execute(sql)
         stock = cur.fetchone()
 
@@ -384,10 +424,11 @@ def anadir_stock():
         select stocks.stock_producto , stocks.producto_id from stocks ,
         productos where stocks.negocio_id = '1' and stocks.producto_id = productos.id and productos.nombre = ('%s');
         """%(nombre1)
-        cur.execute(sql)
+        print "Obtener stock y id de producto pedido"
         print sql
+        cur.execute(sql)
         stock1 = cur.fetchone()
-        print stock1
+        #print stock1
         n_stock = stock1[0]+int(cantidad1)
         sql = """
         update stocks set stock_producto = ('%s') where stocks.negocio_id = '1' and stocks.producto_id =('%s');
@@ -412,4 +453,3 @@ def anadir_prod():
         """%(id1,cant,precio)
         cur.execute(sql)
         return  redirect(request.referrer)
-
