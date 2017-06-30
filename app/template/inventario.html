@@ -98,8 +98,15 @@
                       </div>
                   </div>
                   <button type="submit" class="btn btn-primary">consultar</button>
-                  <button  class="btn btn-primary">Stock disponible {{stock[0]}}</button>
               </form>
+              <label style=""=""></label>
+              <div class="panel panel-default">
+                  <div class="panel-body">
+                      <div class="text-center">
+                          Stock disponible: {{stock[0]}}
+                      </div>
+                  </div>
+              </div>
             </div>
         </div>
     </div>
@@ -121,18 +128,23 @@
             <form role="form" action="/anadir_prod" method="post">
                 <div class="form-group">
                     <div class="col-xs-3">
-                        <input type="text" autofocus="autofocus" class="form-control" name="nombre0"value="Nombre">
+                        Nombre :
+                        <input type="text" autofocus="autofocus" class="form-control" name="nombre0">
                     </div>
                     <div class="col-xs-3">
-                        <input type="text" autofocus="autofocus" class="form-control" name="detalle" value="Detalles">
+                        Detalle :
+                        <input type="text" autofocus="autofocus" class="form-control" name="detalle">
                     </div>
                     <div class="col-xs-2">
+                        Cantidad :
                         <input type="number" class="form-control" name="cant" value="1"  min="1">
                     </div>
                     <div class="col-xs-2">
+                        id :
                         <input type="number" class="form-control" name="id1" value="1" min="1">
                     </div>
                     <div class="col-xs-2">
+                        Precio :
                         <input type="number" class="form-control" name="precio" value="1" min="1">
                     </div>
                 </div>
@@ -149,12 +161,15 @@
             <form role="form" action="/anadir_stock" method="POST">
                 <div class="form-group">
                     <div class="col-xs-5">
-                        <input type="text" autofocus="autofocus" class="form-control" name="nombre1"value="Nombre">
+                        Nombre:
+                        <input type="text" autofocus="autofocus" class="form-control" name="nombre1">
                     </div>
                     <div class="col-xs-5">
+                        Cantidad:
                         <input type="number" class="form-control" name="cantidad1" value="1" min="1">
                     </div>
                 </div>
+                <br>
                 <button type="submit" class="btn btn-primary">Añadir</button>
             </form>
 
@@ -179,7 +194,7 @@
             <div class="progress-outer">
                 <div class="progress">
                   <div class="progress-bar progress-bar-info progress-bar-striped active" style="width:{{prod[2]}}%; box-shadow:-1px 10px 10px rgba(91, 192, 222, 0.7);">
-                  <div class="progress-value"> {{prod[1]}} {{prod[0]}}</div>
+                  <div style="color: black;" class="progress-value"> {{prod[1]}} {{prod[0]}}</div>
                 </div>
                 </div>
             </div>

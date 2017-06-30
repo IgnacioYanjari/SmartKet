@@ -424,6 +424,8 @@ def anadir_stock():
     if request.method == 'POST':
         nombre1 = request.form['nombre1']
         cantidad1 = request.form['cantidad1']
+        if not nombre1 or not cantidad1:
+            return redirect("/inventario.html")
         sql = """
         select stocks.stock_producto , stocks.producto_id from stocks ,
         productos where stocks.negocio_id = '1' and stocks.producto_id = productos.id and productos.nombre = ('%s');
@@ -440,6 +442,7 @@ def anadir_stock():
         print sql
         cur.execute(sql)
         return  redirect(request.referrer)
+
 @app.route('/anadir_prod', methods = ["POST" , "GET"])
 def anadir_prod():
     if request.method == 'POST':
@@ -448,12 +451,26 @@ def anadir_prod():
         id1 = request.form['id1']
         cant = request.form['cant']
         precio = request.form['precio']
+        if not nombre or not detalle or not cant:
+            return redirect("/inventario.html")
+
+        sql = """
+            SELECT (EXISTS (SELECT 1 FROM productos WHERE id = ('%s')))::bool;
+        """%(id1)
+        cur.execute(sql)
+        isOnTable=cur.fetchone()
+        if isOnTable[0]:
+            return redirect("/inventario.html")
+
         sql = """
         insert into productos values (('%s'),('%s'),('%s'));
         """%(id1,nombre,detalle)
         cur.execute(sql)
+        conn.commit()
+
         sql = """
         insert into stocks values('1',(%s),(%s),'0',(%s))
         """%(id1,cant,precio)
         cur.execute(sql)
+        conn.commit()
         return  redirect(request.referrer)
